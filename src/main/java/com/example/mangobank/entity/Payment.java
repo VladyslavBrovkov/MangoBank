@@ -16,11 +16,13 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
-    private Account sender;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "from_account_id")
+    private Account fromAccount;
 
-    @OneToOne
-    private Account receiver;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "to_account_id")
+    private Account toAccount;
 
     private Date paymentTime;
 

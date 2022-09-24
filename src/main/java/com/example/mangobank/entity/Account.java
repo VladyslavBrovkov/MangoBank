@@ -3,12 +3,11 @@ package com.example.mangobank.entity;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -19,10 +18,20 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "client_id")
+    @NotNull
     private Client client;
 
+    @OneToMany(mappedBy = "fromAccount", cascade = CascadeType.ALL)
+    private List<Payment> outPayment;
+
+    @OneToMany(mappedBy = "toAccount", cascade = CascadeType.ALL)
+    private List<Payment> inPayment;
+
     private String IBAN;
+
+    private Currency currency;
 
     private BigDecimal withdraw;
 

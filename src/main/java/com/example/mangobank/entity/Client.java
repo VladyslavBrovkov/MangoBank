@@ -1,12 +1,11 @@
 package com.example.mangobank.entity;
 
-import com.sun.istack.NotNull;
-import jdk.jfr.Timestamp;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -17,14 +16,18 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
-    private Account account;
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    private List<Account> account;
 
-    private String name;
+    private String username;
 
     private String surname;
 
     private String phone;
+
+    private String email;
+
+    private String password;
 
     private Date registrationDate;
 
