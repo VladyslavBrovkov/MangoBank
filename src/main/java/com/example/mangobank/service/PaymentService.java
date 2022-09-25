@@ -1,4 +1,4 @@
 package com.example.mangobank.service;
 
-public interface RootUserService {
+public interface PaymentService {
 }

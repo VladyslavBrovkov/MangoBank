@@ -1,11 +1,12 @@
 package com.example.mangobank.entity;
 
+import com.example.mangobank.enums.Currency;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -16,9 +17,16 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
+
+    @OneToMany (mappedBy = "toAccount")
+    private List<Payments> toAccountPayment;
+
+    @OneToMany (mappedBy = "fromAccount")
+    private List<Payments> fromAccountPayment;
+
 
     @Column(name = "IBAN")
     private String iban;
@@ -27,9 +35,6 @@ public class Account {
 
     private Currency currency;
 
-    private BigDecimal withdraw;
-
-    private Date lastTransactionTime;
-
+    private BigDecimal balance;
 
 }

@@ -1,4 +1,4 @@
-package com.example.mangobank.entity;
+package com.example.mangobank.enums;
 
 public enum Currency {
     UAH,USD,EUR

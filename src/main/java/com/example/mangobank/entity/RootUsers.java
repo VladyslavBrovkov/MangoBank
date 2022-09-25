@@ -1,6 +1,7 @@
 package com.example.mangobank.entity;
 
 
+import com.example.mangobank.enums.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +13,7 @@ import javax.persistence.Id;
 @Data
 @Entity
 @NoArgsConstructor
-public class RootUser {
+public class RootUsers {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

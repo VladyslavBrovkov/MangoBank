@@ -1,10 +1,12 @@
 package com.example.mangobank.entity;
 
+import com.example.mangobank.enums.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -15,8 +17,8 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)
-    private Account account;
+    @OneToMany(mappedBy = "client")
+    private List<Account> account;
 
     private String username;
 
@@ -30,6 +32,7 @@ public class Client {
 
     private Date registrationDate;
 
-    private Role role;
+    @Enumerated(EnumType.STRING)
+    private final Role role = Role.CLIENT;
 
 }
