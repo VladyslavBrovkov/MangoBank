@@ -1,6 +1,7 @@
-package com.example.mangobank.entity;
+package com.example.mangobank.models.entity;
 
 import com.example.mangobank.enums.Role;
+import com.example.mangobank.models.entity.Account;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,9 +21,9 @@ public class Client {
     @OneToMany(mappedBy = "client")
     private List<Account> account;
 
-    private String username;
+    private String firstName;
 
-    private String surname;
+    private String lastName;
 
     private String phone;
 

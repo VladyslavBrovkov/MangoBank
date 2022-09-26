@@ -1,6 +1,6 @@
 package com.example.mangobank.service;
 
-import com.example.mangobank.entity.Client;
+import com.example.mangobank.models.entity.Client;
 
 import java.util.List;
 

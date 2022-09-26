@@ -17,13 +17,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/homepage").permitAll()
+                .antMatchers("/","/login").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
-                .defaultSuccessUrl("/homepage/success/")
+                .defaultSuccessUrl("/homepage")
                 .and()
                 .logout()
                 .logoutSuccessUrl("/auth/login");

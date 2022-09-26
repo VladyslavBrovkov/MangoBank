@@ -1,5 +1,6 @@
-package com.example.mangobank.entity;
+package com.example.mangobank.models.entity;
 
+import com.example.mangobank.models.entity.Account;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,7 @@ import java.util.Date;
 @Data
 @Entity
 @NoArgsConstructor
-public class Payments {
+public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

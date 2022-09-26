@@ -1,6 +1,6 @@
 package com.example.mangobank.service.impl;
 
-import com.example.mangobank.entity.Client;
+import com.example.mangobank.models.entity.Client;
 import com.example.mangobank.repository.ClientRepository;
 import com.example.mangobank.service.ClientService;
 import org.springframework.stereotype.Service;
@@ -61,8 +61,8 @@ public class ClientServiceImpl implements ClientService {
     public Client updateClient(Client client) {
         if (getClientByEmail(client.getEmail()) != null) {
             Client client1 = getClientByEmail(client.getEmail());
-            client1.setUsername(client.getUsername());
-            client1.setSurname(client.getSurname());
+            client1.setFirstName(client.getFirstName());
+            client1.setLastName(client.getLastName());
             client1.setEmail(client.getEmail());
             return client1;
         } else {

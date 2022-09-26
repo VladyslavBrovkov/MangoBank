@@ -1,4 +1,4 @@
-package com.example.mangobank.entity;
+package com.example.mangobank.models.entity;
 
 import com.example.mangobank.enums.Currency;
 import lombok.Data;
@@ -22,10 +22,10 @@ public class Account {
     private Client client;
 
     @OneToMany (mappedBy = "toAccount")
-    private List<Payments> toAccountPayment;
+    private List<Payment> toAccountPayment;
 
     @OneToMany (mappedBy = "fromAccount")
-    private List<Payments> fromAccountPayment;
+    private List<Payment> fromAccountPayment;
 
 
     @Column(name = "IBAN")

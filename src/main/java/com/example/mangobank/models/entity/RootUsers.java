@@ -1,4 +1,4 @@
-package com.example.mangobank.entity;
+package com.example.mangobank.models.entity;
 
 
 import com.example.mangobank.enums.Role;
@@ -17,9 +17,9 @@ public class RootUsers {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String username;
-    private String surname;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
-    private Role role;
+    private Role role = Role.ADMIN;
 }

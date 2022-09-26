@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("")
 public class HomeController {
 
-    @RequestMapping("/homepage/success/")
+    @RequestMapping("/homepage")
     public ModelAndView homePage(){
         return new ModelAndView("homepage");
     }

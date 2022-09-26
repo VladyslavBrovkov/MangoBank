@@ -1,9 +1,9 @@
 package com.example.mangobank.repository;
 
-import com.example.mangobank.entity.RootUsers;
+import com.example.mangobank.models.entity.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RootUserRepository extends JpaRepository<RootUsers,Long> {
+public interface AccountsRepository extends JpaRepository<Account,Long> {
 }
