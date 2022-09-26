@@ -12,7 +12,7 @@ import javax.persistence.Id;
 @Data
 @Entity
 @NoArgsConstructor
-public class RootUser {
+public class RootUser { //todo User
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

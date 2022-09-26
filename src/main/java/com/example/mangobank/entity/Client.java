@@ -18,9 +18,9 @@ public class Client {
     @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)
     private Account account;
 
-    private String username;
+    private String username; //todo first name
 
-    private String surname;
+    private String surname; //todo last name
 
     private String phone;
 

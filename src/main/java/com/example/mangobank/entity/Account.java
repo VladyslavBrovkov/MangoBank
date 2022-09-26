@@ -29,7 +29,7 @@ public class Account {
 
     private BigDecimal withdraw;
 
-    private Date lastTransactionTime;
+    private Date lastTransactionTime; //todo why this field needed?
 
 
 }
