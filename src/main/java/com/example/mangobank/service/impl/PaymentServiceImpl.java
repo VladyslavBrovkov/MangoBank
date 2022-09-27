@@ -1,13 +1,16 @@
 package com.example.mangobank.service.impl;
 
+import com.example.mangobank.models.entity.Account;
 import com.example.mangobank.models.entity.Payment;
 import com.example.mangobank.repository.AccountsRepository;
+import com.example.mangobank.repository.ClientRepository;
 import com.example.mangobank.repository.PaymentRepository;
 import com.example.mangobank.service.PaymentService;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,9 +22,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final AccountsRepository accountsRepository;
 
-    public PaymentServiceImpl(PaymentRepository paymentRepository, AccountsRepository accountsRepository) {
+    private final ClientRepository clientRepository;
+
+    public PaymentServiceImpl(PaymentRepository paymentRepository, AccountsRepository accountsRepository, ClientRepository clientRepository) {
         this.paymentRepository = paymentRepository;
         this.accountsRepository = accountsRepository;
+        this.clientRepository = clientRepository;
     }
 
     @Override
@@ -44,7 +50,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public void deletePayment(Long id) {
         var payment = paymentRepository.findById(id);
-        if (payment.isPresent()){
+        if (payment.isPresent()) {
             paymentRepository.delete(payment.get());
         } else {
             throw new EntityNotFoundException("No such payment");
@@ -54,7 +60,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public List<Payment> getAllIncomingPaymentsByAccountId(Long accountId) {
         var account = accountsRepository.findById(accountId);
-        if (account.isPresent()){
+        if (account.isPresent()) {
             return account.get().getToAccountPayment();
         } else {
             throw new EntityNotFoundException("No such account");
@@ -64,11 +70,22 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public List<Payment> getAllOutcomingPaymentsByAccountId(Long accountId) {
         var account = accountsRepository.findById(accountId);
-        if (account.isPresent()){
+        if (account.isPresent()) {
             return account.get().getFromAccountPayment();
         } else {
             throw new EntityNotFoundException("No such account");
         }
+    }
+
+    @Override
+    public List<Payment> getPaymentsByClientId(Long clientId) {
+        var client = clientRepository.findById(clientId);
+        List<Payment> clientPayments = new ArrayList<>();
+        if (client.isPresent()) {
+            client.get().getAccount().stream().forEach(a -> clientPayments.addAll(a.getToAccountPayment()));
+            client.get().getAccount().stream().forEach(a -> clientPayments.addAll(a.getFromAccountPayment()));
+        }
+        return clientPayments;
     }
 
 

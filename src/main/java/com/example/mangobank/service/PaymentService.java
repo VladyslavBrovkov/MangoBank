@@ -19,5 +19,7 @@ public interface PaymentService {
 
     List<Payment> getAllOutcomingPaymentsByAccountId(Long accountId);
 
+    List<Payment> getPaymentsByClientId(Long clientId);
+
     List<Payment> getAllPayments();
 }
