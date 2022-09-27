@@ -30,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deleteAccount(Account account) {
-        if (findAccountByIban(account.getIban()) == true){
+        if (findAccountByIban(account.getIban()) == true){ // todo no need to put == true, Idea prompts to simplify
             accountsRepository.delete(account);
         } else {
             throw new EntityNotFoundException("No such account");

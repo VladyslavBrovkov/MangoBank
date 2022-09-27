@@ -35,7 +35,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<Payment> findPaymentsBySum(BigDecimal sum) {
+    public List<Payment> findPaymentsBySum(BigDecimal sum) { //todo think if have enough time use lib JavaMoney https://javamoney.github.io/ , for money operations
         return paymentRepository.findAll().stream().filter(p -> p.getSumOfPayment().equals(sum))
                 .collect(Collectors.toList());
     }
@@ -81,7 +81,7 @@ public class PaymentServiceImpl implements PaymentService {
         var client = clientRepository.findById(clientId);
         List<Payment> clientPayments = new ArrayList<>();
         if (client.isPresent()) {
-            client.get().getAccount().stream().forEach(a -> clientPayments.addAll(a.getToAccountPayment()));
+            client.get().getAccount().stream().forEach(a -> clientPayments.addAll(a.getToAccountPayment())); //todo replace stream forEach by forEach, Idea promtp
             client.get().getAccount().stream().forEach(a -> clientPayments.addAll(a.getFromAccountPayment()));
         }
         return clientPayments;

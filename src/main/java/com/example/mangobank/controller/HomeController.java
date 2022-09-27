@@ -6,7 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value = "/homepage")
-public class HomeController {
+public class HomeController { //todo create near here class CustomerController with api and method for getting all customers
     @RequestMapping
     public ModelAndView homePage(){
         return new ModelAndView("homepage");
