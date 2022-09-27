@@ -20,17 +20,16 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable()
+        return httpSecurity.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
                 .anyRequest()
-                .authenticated()
+                .fullyAuthenticated()
                 .and()
                 .formLogin()
                 .defaultSuccessUrl("/homepage", true)
                 .and()
-                .logout();
-        return httpSecurity.build();
+                .logout().and().build();
     }
 
     @Bean
@@ -38,7 +37,6 @@ public class SecurityConfig {
         UserDetails admin = User.withDefaultPasswordEncoder().username("admin").password("admin").roles(String.valueOf(Role.ADMIN)).build();
         UserDetails client = User.withDefaultPasswordEncoder().username("client").password("client").roles(String.valueOf(Role.CLIENT)).build();
         return new InMemoryUserDetailsManager(List.of(admin, client));
-
     }
 
 }

@@ -33,6 +33,7 @@ public class Account {
 
     private String cardNumber;
 
+    @Enumerated(EnumType.STRING)
     private Currency currency;
 
     private BigDecimal balance;

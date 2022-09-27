@@ -1,5 +1,6 @@
 package com.example.mangobank.models.entity;
 
+import com.example.mangobank.enums.Currency;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -28,4 +29,7 @@ public class Payment {
 
     @Column(name = "payment_sum")
     private BigDecimal sumOfPayment;
+
+    @Enumerated(EnumType.STRING)
+    private Currency currencyOfPayment;
 }

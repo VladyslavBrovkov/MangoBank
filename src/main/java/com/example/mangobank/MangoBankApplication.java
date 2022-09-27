@@ -1,5 +1,6 @@
 package com.example.mangobank;
 
+import com.example.mangobank.models.entity.RootUser;
 import com.example.mangobank.repository.ClientRepository;
 import com.example.mangobank.service.impl.AccountServiceImpl;
 import com.example.mangobank.service.impl.ClientServiceImpl;
@@ -30,6 +31,7 @@ public class MangoBankApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
 
     }
 }
