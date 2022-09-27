@@ -36,7 +36,7 @@ public class MangoBankApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        RootUser admin = new RootUser();
+        RootUser admin = new RootUser(); //todo move to the method createDemoData() or createInitialData()
         admin.setFirstName("admin");
         admin.setLastName("admin");
         admin.setPassword("admin");

@@ -44,6 +44,7 @@ public class ClientServiceImpl implements ClientService {
         } else {
             throw new EntityNotFoundException();
         }
+        Collections.sor
     }
 
     @Override
