@@ -1,6 +1,6 @@
 package com.example.mangobank.repository;
 
-import com.example.mangobank.models.entity.Payment;
+import com.example.mangobank.model.entity.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

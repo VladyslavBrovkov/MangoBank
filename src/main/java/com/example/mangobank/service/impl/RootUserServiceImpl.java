@@ -1,6 +1,6 @@
 package com.example.mangobank.service.impl;
 
-import com.example.mangobank.models.entity.RootUser;
+import com.example.mangobank.model.entity.RootUser;
 import com.example.mangobank.repository.RootUserRepository;
 import com.example.mangobank.service.RootUserService;
 import org.springframework.stereotype.Service;

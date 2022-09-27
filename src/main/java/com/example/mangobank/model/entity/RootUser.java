@@ -1,7 +1,7 @@
-package com.example.mangobank.models.entity;
+package com.example.mangobank.model.entity;
 
 
-import com.example.mangobank.enums.Role;
+import com.example.mangobank.enumerated.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

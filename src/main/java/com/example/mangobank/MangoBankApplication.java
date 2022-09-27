@@ -1,9 +1,9 @@
 package com.example.mangobank;
 
-import com.example.mangobank.enums.Currency;
-import com.example.mangobank.models.entity.Account;
-import com.example.mangobank.models.entity.Client;
-import com.example.mangobank.models.entity.RootUser;
+import com.example.mangobank.enumerated.Currency;
+import com.example.mangobank.model.entity.Account;
+import com.example.mangobank.model.entity.Client;
+import com.example.mangobank.model.entity.RootUser;
 import com.example.mangobank.service.impl.AccountServiceImpl;
 import com.example.mangobank.service.impl.ClientServiceImpl;
 import com.example.mangobank.service.impl.PaymentServiceImpl;
@@ -13,6 +13,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @SpringBootApplication
@@ -54,6 +55,7 @@ public class MangoBankApplication implements CommandLineRunner {
         client.setPassword("client1");
         client.setPhone("0672222222");
         client.setAccount(List.of(account));
+        client.setRegistrationDate(new Date());
         account.setClient(client);
         clientService.addClient(client);
         accountService.addAccount(account);

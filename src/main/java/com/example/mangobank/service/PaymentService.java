@@ -1,6 +1,6 @@
 package com.example.mangobank.service;
 
-import com.example.mangobank.models.entity.Payment;
+import com.example.mangobank.model.entity.Payment;
 
 import java.math.BigDecimal;
 import java.util.Date;

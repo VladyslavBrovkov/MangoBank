@@ -1,6 +1,6 @@
 package com.example.mangobank.repository;
 
-import com.example.mangobank.models.entity.RootUser;
+import com.example.mangobank.model.entity.RootUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

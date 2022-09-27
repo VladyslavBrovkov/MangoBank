@@ -1,6 +1,6 @@
 package com.example.mangobank.service;
 
-import com.example.mangobank.models.entity.RootUser;
+import com.example.mangobank.model.entity.RootUser;
 
 import java.util.List;
 

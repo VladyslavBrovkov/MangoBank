@@ -1,6 +1,6 @@
 package com.example.mangobank.service.impl;
 
-import com.example.mangobank.models.entity.Client;
+import com.example.mangobank.model.entity.Client;
 import com.example.mangobank.repository.ClientRepository;
 import com.example.mangobank.service.ClientService;
 import org.springframework.stereotype.Service;

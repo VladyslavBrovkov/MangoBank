@@ -1,6 +1,6 @@
 package com.example.mangobank.security;
 
-import com.example.mangobank.enums.Role;
+import com.example.mangobank.enumerated.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -22,7 +22,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login").permitAll()
+                .antMatchers("/login", "/clients").permitAll()
                 .anyRequest()
                 .fullyAuthenticated()
                 .and()

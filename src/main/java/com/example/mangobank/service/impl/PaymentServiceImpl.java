@@ -1,6 +1,6 @@
 package com.example.mangobank.service.impl;
 
-import com.example.mangobank.models.entity.Payment;
+import com.example.mangobank.model.entity.Payment;
 import com.example.mangobank.repository.AccountsRepository;
 import com.example.mangobank.repository.ClientRepository;
 import com.example.mangobank.repository.PaymentRepository;

@@ -1,4 +1,4 @@
-package com.example.mangobank.models;
+package com.example.mangobank.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

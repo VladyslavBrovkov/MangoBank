@@ -1,6 +1,6 @@
-package com.example.mangobank.models.entity;
+package com.example.mangobank.model.entity;
 
-import com.example.mangobank.enums.Currency;
+import com.example.mangobank.enumerated.Currency;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

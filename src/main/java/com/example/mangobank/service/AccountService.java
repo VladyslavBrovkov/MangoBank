@@ -1,7 +1,7 @@
 package com.example.mangobank.service;
 
 
-import com.example.mangobank.models.entity.Account;
+import com.example.mangobank.model.entity.Account;
 
 import java.util.List;
 

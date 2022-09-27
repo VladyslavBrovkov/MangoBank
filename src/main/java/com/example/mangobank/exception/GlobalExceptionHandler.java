@@ -1,4 +1,4 @@
-package com.example.mangobank.exceptions;
+package com.example.mangobank.exception;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
