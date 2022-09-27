@@ -13,13 +13,13 @@ import javax.persistence.Id;
 @Data
 @Entity
 @NoArgsConstructor
-public class RootUsers {
+public class RootUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String firstName;
     private String lastName;
-    private String email;
+    private String phone;
     private String password;
-    private Role role = Role.ADMIN;
+    private static final Role role = Role.ADMIN;
 }

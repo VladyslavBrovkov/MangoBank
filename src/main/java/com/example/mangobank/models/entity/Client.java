@@ -1,7 +1,6 @@
 package com.example.mangobank.models.entity;
 
 import com.example.mangobank.enums.Role;
-import com.example.mangobank.models.entity.Account;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -29,11 +28,11 @@ public class Client {
 
     private String email;
 
-    private String pass;
+    private String password;
 
     private Date registrationDate;
 
     @Enumerated(EnumType.STRING)
-    private final Role role = Role.CLIENT;
+    private static final Role role = Role.CLIENT;
 
 }

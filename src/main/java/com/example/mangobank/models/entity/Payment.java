@@ -1,6 +1,5 @@
 package com.example.mangobank.models.entity;
 
-import com.example.mangobank.models.entity.Account;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
