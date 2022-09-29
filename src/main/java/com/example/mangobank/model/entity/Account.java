@@ -18,8 +18,8 @@ public class Account {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "client_id")
-    private Client client;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany (mappedBy = "toAccount")
     private List<Payment> toAccountPayment;

@@ -1,9 +1,9 @@
 package com.example.mangobank.service.impl;
 
 import com.example.mangobank.model.entity.Payment;
-import com.example.mangobank.repository.AccountsRepository;
-import com.example.mangobank.repository.ClientRepository;
+import com.example.mangobank.repository.AccountRepository;
 import com.example.mangobank.repository.PaymentRepository;
+import com.example.mangobank.repository.UserRepository;
 import com.example.mangobank.service.PaymentService;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +19,14 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
 
-    private final AccountsRepository accountsRepository;
+    private final AccountRepository accountRepository;
 
-    private final ClientRepository clientRepository;
+    private final UserRepository userRepository;
 
-    public PaymentServiceImpl(PaymentRepository paymentRepository, AccountsRepository accountsRepository, ClientRepository clientRepository) {
+    public PaymentServiceImpl(PaymentRepository paymentRepository, AccountRepository accountRepository, UserRepository userRepository) {
         this.paymentRepository = paymentRepository;
-        this.accountsRepository = accountsRepository;
-        this.clientRepository = clientRepository;
+        this.accountRepository = accountRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<Payment> getAllIncomingPaymentsByAccountId(Long accountId) {
-        var account = accountsRepository.findById(accountId);
+        var account = accountRepository.findById(accountId);
         if (account.isPresent()) {
             return account.get().getToAccountPayment();
         } else {
@@ -68,7 +68,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<Payment> getAllOutcomingPaymentsByAccountId(Long accountId) {
-        var account = accountsRepository.findById(accountId);
+        var account = accountRepository.findById(accountId);
         if (account.isPresent()) {
             return account.get().getFromAccountPayment();
         } else {
@@ -77,14 +77,14 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<Payment> getPaymentsByClientId(Long clientId) {
-        var client = clientRepository.findById(clientId);
-        List<Payment> clientPayments = new ArrayList<>();
-        if (client.isPresent()) {
-            client.get().getAccount().stream().forEach(a -> clientPayments.addAll(a.getToAccountPayment()));
-            client.get().getAccount().stream().forEach(a -> clientPayments.addAll(a.getFromAccountPayment()));
+    public List<Payment> getPaymentsByUserId(Long userId) {
+        var user = userRepository.findById(userId);
+        List<Payment> userPayments = new ArrayList<>();
+        if (user.isPresent()) {
+            user.get().getAccount().forEach(a -> userPayments.addAll(a.getToAccountPayment()));//todo: refactor
+            user.get().getAccount().forEach(a -> userPayments.addAll(a.getFromAccountPayment()));
         }
-        return clientPayments;
+        return userPayments;
     }
 
 
