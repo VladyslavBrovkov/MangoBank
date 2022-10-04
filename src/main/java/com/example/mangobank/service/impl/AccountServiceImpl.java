@@ -60,8 +60,8 @@ public class AccountServiceImpl implements AccountService {
          var dbAccount = accountRepository.findById(id).get();
          dbAccount.setIban(account.getIban());
          dbAccount.setBalance(account.getBalance());
-         dbAccount.setToAccountPayment(account.getToAccountPayment());
-         dbAccount.setFromAccountPayment(account.getFromAccountPayment());
+//         dbAccount.setToAccountPayment(account.getToAccountPayment()); //too checke and remove
+//         dbAccount.setFromAccountPayment(account.getFromAccountPayment());
          dbAccount.setIban(account.getIban());
          dbAccount.setUser(account.getUser());
          dbAccount.setCardNumber(account.getCardNumber());

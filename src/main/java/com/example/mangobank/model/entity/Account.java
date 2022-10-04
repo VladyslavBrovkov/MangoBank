@@ -21,11 +21,11 @@ public class Account {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany (mappedBy = "toAccount")
-    private List<Payment> toAccountPayment;
+//    @OneToMany (mappedBy = "toAccount") //todo read in which cases this needed
+//    private List<Payment> toAccountPayment;
 
-    @OneToMany (mappedBy = "fromAccount")
-    private List<Payment> fromAccountPayment;
+//    @OneToMany (mappedBy = "fromAccount")
+//    private List<Payment> fromAccountPayment;
 
 
     @Column(name = "IBAN")

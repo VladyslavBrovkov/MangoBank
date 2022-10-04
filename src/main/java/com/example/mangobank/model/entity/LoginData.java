@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @NoArgsConstructor
-public class LoginData {
+public class LoginData { //todo create also LoginDataDto
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

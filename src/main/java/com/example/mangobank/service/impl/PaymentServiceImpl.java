@@ -59,8 +59,12 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public List<Payment> getAllIncomingPaymentsByAccountId(Long accountId) {
         var account = accountRepository.findById(accountId);
-        if (account.isPresent()) {
-            return account.get().getToAccountPayment();
+
+        //todo use similar way for optional or get
+///        return account.get().orElseThrow()
+
+        if (account.isPresent()) {//todo refactor with using optional aproach with lambda
+            return paymentRepository.findByToAccount(account.get());
         } else {
             throw new EntityNotFoundException("No such account");
         }
@@ -69,8 +73,8 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public List<Payment> getAllOutcomingPaymentsByAccountId(Long accountId) {
         var account = accountRepository.findById(accountId);
-        if (account.isPresent()) {
-            return account.get().getFromAccountPayment();
+        if (account.isPresent()) { //todo refactor
+            return paymentRepository.findByFromAccount(account.get());
         } else {
             throw new EntityNotFoundException("No such account");
         }
@@ -80,9 +84,9 @@ public class PaymentServiceImpl implements PaymentService {
     public List<Payment> getPaymentsByUserId(Long userId) {
         var user = userRepository.findById(userId);
         List<Payment> userPayments = new ArrayList<>();
-        if (user.isPresent()) {
-            user.get().getAccount().forEach(a -> userPayments.addAll(a.getToAccountPayment()));//todo: refactor
-            user.get().getAccount().forEach(a -> userPayments.addAll(a.getFromAccountPayment()));
+        if (user.isPresent()) { //todo uncomment  fix as paymentRepository.findByUser();
+//            user.get().getAccount().forEach(a -> userPayments.addAll(a.getToAccountPayment()));//todo: refactor
+//            user.get().getAccount().forEach(a -> userPayments.addAll(a.getFromAccountPayment()));
         }
         return userPayments;
     }

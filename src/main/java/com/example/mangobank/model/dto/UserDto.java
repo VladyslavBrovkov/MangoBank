@@ -8,7 +8,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class UserDto{
+public class UserDto{ //todo create UserRespDto without password and secretWord
     private Long id;
     private String firstName;
     private String lastName;
