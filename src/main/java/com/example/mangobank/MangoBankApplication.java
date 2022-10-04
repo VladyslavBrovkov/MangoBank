@@ -3,6 +3,7 @@ package com.example.mangobank;
 import com.example.mangobank.entity.*;
 import com.example.mangobank.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +15,10 @@ import java.util.List;
 
 @SpringBootApplication
 public class MangoBankApplication implements CommandLineRunner {
+
+    @Value("${create.demo.data}")
+    private boolean createDemoData;
+
     @Autowired
     private ClientRepository clientRepository;
 
@@ -21,8 +26,16 @@ public class MangoBankApplication implements CommandLineRunner {
         SpringApplication.run(MangoBankApplication.class, args);
     }
 
+
     @Override
     public void run(String... args) throws Exception {
+        if (createDemoData) {
+            System.out.println("Create demo data");
+            createDemoData();
+        }
+    }
+
+    private void createDemoData() {
         Client cl1 = new Client();
         Account ac1 = new Account();
         ac1.setClient(cl1);
