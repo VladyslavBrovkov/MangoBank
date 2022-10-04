@@ -1,5 +1,6 @@
 package com.example.mangobank.service.impl;
 
+import com.example.mangobank.model.dto.PaymentDtoRequest;
 import com.example.mangobank.model.entity.Payment;
 import com.example.mangobank.repository.AccountRepository;
 import com.example.mangobank.repository.PaymentRepository;
@@ -30,8 +31,8 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void createPayment(Payment payment) {
-        paymentRepository.save(payment);
+    public void createPayment(PaymentDtoRequest payment) {
+
     }
 
     @Override
@@ -47,7 +48,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void deletePayment(Long id) {
+    public void deletePaymentById(Long id) {
         var payment = paymentRepository.findById(id);
         if (payment.isPresent()) {
             paymentRepository.delete(payment.get());

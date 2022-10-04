@@ -1,6 +1,7 @@
 package com.example.mangobank.service.impl;
 
-import com.example.mangobank.model.dto.UserDto;
+import com.example.mangobank.model.dto.UserDtoRequest;
+import com.example.mangobank.model.dto.UserDtoResponse;
 import com.example.mangobank.model.entity.User;
 import com.example.mangobank.repository.UserRepository;
 import com.example.mangobank.service.UserService;
@@ -77,9 +78,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAll() {
+    public List<UserDtoResponse> getAll() {
         return repository.findAll().stream()
-                .map(UserDto::from).toList();
+                .map(UserDtoResponse::from).toList();
     }
 
     @Override

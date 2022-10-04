@@ -1,6 +1,7 @@
 package com.example.mangobank.service;
 
-import com.example.mangobank.model.dto.UserDto;
+import com.example.mangobank.model.dto.UserDtoRequest;
+import com.example.mangobank.model.dto.UserDtoResponse;
 import com.example.mangobank.model.entity.User;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public interface UserService {
 
     User updateUserInfo(User user);
 
-    List<UserDto> getAll();
+    List<UserDtoResponse> getAll();
 
     Long getIdByEmail(String email);
 
