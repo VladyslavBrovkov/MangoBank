@@ -95,7 +95,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDtoResponse getUserById(Long id) {
         var user = repository.getUserById(id);
-        return UserDtoResponse.from(user);
+        if (user != null) {
+            return UserDtoResponse.from(user);
+        } else {
+            throw new EntityNotFoundException("No user with such id");
+        }
     }
-
 }

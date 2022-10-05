@@ -13,6 +13,7 @@ public class LoginData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(unique = true)
     private String loginEmail;
     private String password;
     private String secretWord;

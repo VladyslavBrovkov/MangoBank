@@ -1,23 +1,26 @@
 package com.example.mangobank.repository;
 
+import com.example.mangobank.model.entity.LoginData;
 import com.example.mangobank.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query(value = "SELECT u.id FROM Users u LEFT JOIN login_data l ON l.login_email= :email", nativeQuery = true)
+    @Query(value = "SELECT u.id FROM Users u WHERE u.login_data= (SELECT l.id FROM login_data l WHERE l.login_email = :email)", nativeQuery = true)
     Long getIdByEmail(@Param("email") String email);
 
     @Query(value = "SELECT u.id FROM Users u WHERE u.phone = :phone", nativeQuery = true)
     Long getIdByPhone(@Param("phone") String phone);
 
     @Query(value = "SELECT COUNT(p)>0 FROM Users p WHERE phone = :phone", nativeQuery = true)
-    public boolean findExistByPhone(@Param("phone") String phone);
+    boolean findExistByPhone(@Param("phone") String phone);
 
-    @Query(value = "SELECT u FROM Users u WHERE u.id = :id", nativeQuery = true)
-    public User getUserById(@Param("id") Long id);
+    @Query(value = "SELECT * FROM Users WHERE id = :id", nativeQuery = true)
+    User getUserById(@Param("id") Long id);
 }
