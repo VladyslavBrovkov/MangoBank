@@ -18,8 +18,8 @@ import java.util.List;
 public class AccountController {
     private final AccountServiceImpl service;
 
-    public AccountController(AccountServiceImpl accountService) {
-        this.service = accountService;
+    public AccountController(AccountServiceImpl service) {
+        this.service = service;
     }
 
     @GetMapping("/getAll")
@@ -28,7 +28,7 @@ public class AccountController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createUser(@Validated @RequestBody AccountDtoRequest accountDtoRequest){
+    public ResponseEntity<String> createAccount(@Validated @RequestBody AccountDtoRequest accountDtoRequest){
         service.addAccount(accountDtoRequest);
         return new ResponseEntity<>("Account successfully added", HttpStatus.OK);
     }

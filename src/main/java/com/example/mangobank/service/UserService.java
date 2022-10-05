@@ -7,22 +7,18 @@ import com.example.mangobank.model.entity.User;
 import java.util.List;
 
 public interface UserService {
-    void addUser(User user);
+    void addUser(UserDtoRequest userDtoRequest);
 
-    void deleteUser(User user);
+    void deleteUser(UserDtoRequest userDtoRequest);
 
-    void deleteUserById(Long id);
+    void deleteUserById(Long userId);
 
-    boolean findUserByEmail(String email);
+    User updateUserInfo(UserDtoRequest userDtoRequest);
 
-    boolean findUserByPhone(String phone);
-
-    User updateUserInfo(User user);
+    User updateUserLoginData(UserDtoRequest userDtoRequest);
 
     List<UserDtoResponse> getAll();
 
-    Long getIdByEmail(String email);
-
-    Long getIdByPhone(String phone);
+    UserDtoResponse getUserById(Long id);
 
 }

@@ -2,7 +2,6 @@ package com.example.mangobank.model.dto;
 
 import com.example.mangobank.enumerated.Currency;
 import com.example.mangobank.model.entity.Account;
-import com.example.mangobank.model.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,13 +28,13 @@ public class AccountDtoRequest {
     }
 
     public static String cardNumberGenerator() {
-        long a = (long) (Math.random() * (10000000 + 1)) + 14000000;
+        long a = (long) (Math.random() * (11000000 + 1)) + 14000000;
         long b = (long) (Math.random() * (15000000 + 1)) + 19000000;
         return String.valueOf(a/10000 + " " + a%10000 + " " + b/10000 + " " + b%10000);
     }
 
     public static String ibanGenerator() {
-        long a = (long) (Math.random() * (10000000 + 1)) + 14000000;
+        long a = (long) (Math.random() * (11000000 + 1)) + 14000000;
         long b = (long) (Math.random() * (15000000 + 1)) + 19000000;
         return String.valueOf("UA" + "00" + a + a+1 + b);
     }

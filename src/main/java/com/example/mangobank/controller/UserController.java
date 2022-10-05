@@ -19,32 +19,37 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/getAll") //admin
     public List<UserDtoResponse> getAllClients() {
         return service.getAll();
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createUser(@Validated @RequestBody UserDtoRequest userDtoRequest){
-         service.addUser(UserDtoRequest.to(userDtoRequest));
-         return new ResponseEntity<>("User successfully added", HttpStatus.OK);
+    public ResponseEntity<String> createUser(@RequestBody UserDtoRequest userDtoRequest) {
+        service.addUser(userDtoRequest);
+        return new ResponseEntity<>("User successfully added", HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteUser(@Validated @RequestBody UserDtoRequest userDtoRequest){
-        service.deleteUser(UserDtoRequest.to(userDtoRequest));
+    @DeleteMapping("/delete") //admin
+    public ResponseEntity<String> deleteUser(@Validated @RequestBody UserDtoRequest userDtoRequest) {
+        service.deleteUser(userDtoRequest);
         return new ResponseEntity<>("User successfully deleted", HttpStatus.OK);
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<String> updateUser(@Validated @RequestBody UserDtoRequest userDtoRequest){
-        service.updateUserInfo(UserDtoRequest.to(userDtoRequest));
-        return new ResponseEntity<>("User successfully updated", HttpStatus.OK);
+    public ResponseEntity<String> updateUserInfo(@Validated @RequestBody UserDtoRequest userDtoRequest) {
+        service.updateUserInfo(userDtoRequest);
+        return new ResponseEntity<>("User info successfully updated", HttpStatus.OK);
+    }
+
+    @PatchMapping("/updateLogin")
+    public ResponseEntity<String> updateUserLoginData(@Validated @RequestBody UserDtoRequest userDtoRequest) {
+        service.updateUserLoginData(userDtoRequest);
+        return new ResponseEntity<>("User loginData successfully updated", HttpStatus.OK);
     }
 
     @GetMapping("/details/{user_id}") //todo: refactor
-    public ResponseEntity<String> getAllClients(@PathVariable Long user_id) {
-
-        return new ResponseEntity<>("User successfully updated", HttpStatus.OK);
+    public UserDtoResponse getUserDetails(@PathVariable Long user_id) {
+        return service.getUserById(user_id);
     }
 }
