@@ -24,7 +24,7 @@ public class UserDtoRequest {
         User user = new User();
         LoginData loginData = new LoginData();
         user.setLoginData(loginData);
-        loginData.setUser(user);
+        //loginData.setUser(user); //todo not needed
         loginData.setLoginEmail(userDtoRequest.getLoginEmail());
         loginData.setPassword(userDtoRequest.getPassword());
         loginData.setSecretWord(userDtoRequest.getSecretWord());

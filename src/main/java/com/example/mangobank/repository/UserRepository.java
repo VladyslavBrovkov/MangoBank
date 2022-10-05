@@ -16,8 +16,16 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Long getIdByPhone(@Param("phone") String phone);
 
     @Query(value = "SELECT COUNT(p)>0 FROM Users p WHERE phone = :phone", nativeQuery = true)
-    public boolean findExistByPhone(@Param("phone") String phone);
+    boolean existByPhone(@Param("phone") String phone);
 
     @Query(value = "SELECT u FROM Users u WHERE u.id = :id", nativeQuery = true)
-    public User getUserById(@Param("id") Long id);
+    User getUserById(@Param("id") Long id);
+
+    @Query("SELECT COUNT(l)>0 FROM User u JOIN u.loginData l WHERE l.loginEmail = :email")
+    boolean existByEmail(@Param("email") String email);
+
+    @Query("SELECT u FROM User u JOIN u.loginData l WHERE l.loginEmail = :email")
+    User findByEmail(@Param("email") String email); //todo should return optional
+
+
 }

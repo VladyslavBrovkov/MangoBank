@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
 
-    private final LoginDataRepository loginDataRepository;
+    private final LoginDataRepository loginDataRepository; //todo check if it needed here?
 
 
     public UserServiceImpl(UserRepository repository, LoginDataRepository loginDataRepository) {
@@ -27,9 +27,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(UserDtoRequest userDtoRequest) {
-        var user = UserDtoRequest.to(userDtoRequest);
-        if (!loginDataRepository.findExistByEmail(user.getLoginData().getLoginEmail())) {
+    public void addUser(UserDtoRequest userDtoRequest) { //todo do we really need to use var? this is just a question, if it is good practice we can leave this
+        if (!repository.existByEmail(userDtoRequest.getLoginEmail())) { //todo use userDtoRequest here
+            var user = UserDtoRequest.to(userDtoRequest);
             user.setRegistrationDate(new Date());
             repository.save(user);
         } else {
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(UserDtoRequest userDtoRequest) {
         var user = UserDtoRequest.to(userDtoRequest);
-        if (loginDataRepository.findExistByEmail((user.getLoginData().getLoginEmail()))) {
+        if (repository.existByEmail((user.getLoginData().getLoginEmail()))) {
             Long userId = repository.getIdByEmail(user.getLoginData().getLoginEmail());
             repository.deleteById(userId);
         } else {
@@ -60,9 +60,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUserInfo(UserDtoRequest userDtoRequest) {
         var user = UserDtoRequest.to(userDtoRequest);
-        if (repository.findExistByPhone(user.getPhone())) {
+        if (repository.existByPhone(user.getPhone())) {
             Long userId = repository.getIdByPhone(user.getPhone());
-            User userFromDb = repository.findById(userId).get();
+            User userFromDb = repository.findById(userId).get(); //todo check this get without ifPresent
             userFromDb.setPhone(user.getPhone());
             userFromDb.setFirstName(user.getFirstName());
             userFromDb.setLastName(user.getLastName());
@@ -74,13 +74,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUserLoginData(UserDtoRequest userDtoRequest) {
-        var user = UserDtoRequest.to(userDtoRequest);
-        var loginData = user.getLoginData();
-        if (loginDataRepository.findExistByEmail(loginData.getLoginEmail())) {
-            Long userId = repository.getIdByEmail(loginData.getLoginEmail());
-            User userFromDb = repository.findById(userId).get();
-            userFromDb.setLoginData(loginData);
-            return repository.save(userFromDb);
+        //var user = UserDtoRequest.to(userDtoRequest); //todo remove
+        User user = repository.findByEmail(userDtoRequest.getLoginEmail()); //todo it is better obtain optional here
+
+        if (user != null) {
+            //todo implement save loginData
+            //user.setLoginData(loginData); //todo probably not needed
+            //var loginData = user.getLoginData(); //todo why we use var
+            //return repository.save(userFromDb); //todo I think we can do not update User, we will just update LoginData entity
+            return user;
         } else {
             throw new EntityNotFoundException("Nu user with such Email");
         }
@@ -94,8 +96,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDtoResponse getUserById(Long id) {
-        var user = repository.getUserById(id);
-        return UserDtoResponse.from(user);
+        return UserDtoResponse.from(repository.getUserById(id));
     }
 
 }

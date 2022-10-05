@@ -16,6 +16,6 @@ public class LoginData {
     private String loginEmail;
     private String password;
     private String secretWord;
-    @OneToOne(mappedBy = "loginData")
-    private User user;
+//    @OneToOne(mappedBy = "loginData")
+//    private User user;
 }

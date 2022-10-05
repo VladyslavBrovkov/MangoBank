@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LoginDataRepository extends JpaRepository<LoginData,Long> {
-    @Query(value = "SELECT COUNT(l)>0 FROM login_data l WHERE l.login_email= :email", nativeQuery = true)
-    public boolean findExistByEmail(@Param("email") String email);
+//todo move to the UserRepository
+    //    @Query("SELECT COUNT(l)>0 FROM User u JOIN u.loginData l WHERE l.loginEmail = :email")
+//    //@Query(value = "SELECT COUNT(l)>0 FROM `User` u JOIN u.loginData  WHERE l.loginData = :email", nativeQuery = true)
+//    boolean existByEmail(@Param("email") String email);
+
 }

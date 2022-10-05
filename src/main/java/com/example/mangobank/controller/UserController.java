@@ -36,13 +36,13 @@ public class UserController {
         return new ResponseEntity<>("User successfully deleted", HttpStatus.OK);
     }
 
-    @PatchMapping("/update")
+    @PatchMapping("/update") //todo we can use POST method here, ask if you have a question
     public ResponseEntity<String> updateUserInfo(@Validated @RequestBody UserDtoRequest userDtoRequest) {
         service.updateUserInfo(userDtoRequest);
         return new ResponseEntity<>("User info successfully updated", HttpStatus.OK);
     }
 
-    @PatchMapping("/updateLogin")
+    @PatchMapping("/login/update") //todo we can use POST method here, ask if you have a question
     public ResponseEntity<String> updateUserLoginData(@Validated @RequestBody UserDtoRequest userDtoRequest) {
         service.updateUserLoginData(userDtoRequest);
         return new ResponseEntity<>("User loginData successfully updated", HttpStatus.OK);

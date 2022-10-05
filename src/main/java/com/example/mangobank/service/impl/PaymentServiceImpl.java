@@ -36,13 +36,13 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<Payment> findPaymentsBySum(BigDecimal sum) {
+    public List<Payment> findPaymentsBySum(BigDecimal sum) { //todo why this is needed?  looks better if we can sort payments sum
         return paymentRepository.findAll().stream().filter(p -> p.getSumOfPayment().equals(sum))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Payment> findPaymentsByDate(Date date) {
+    public List<Payment> findPaymentsByDate(Date date) {//todo I think it is good to havea diapason of dates for filtering, and sorting by date
         return paymentRepository.findAll().stream().filter(p -> p.getPaymentTime().equals(date))
                 .collect(Collectors.toList());
     }
