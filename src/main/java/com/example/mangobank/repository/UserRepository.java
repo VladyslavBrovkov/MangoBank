@@ -12,6 +12,9 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    @Query(value = "SELECT COUNT(l)>0 FROM User u JOIN u.loginData l WHERE l.loginEmail = :email", nativeQuery = true)
+    public boolean findExistByEmail(@Param("email") String email);
+
     @Query(value = "SELECT u.id FROM Users u WHERE u.login_data= (SELECT l.id FROM login_data l WHERE l.login_email = :email)", nativeQuery = true)
     Long getIdByEmail(@Param("email") String email);
 

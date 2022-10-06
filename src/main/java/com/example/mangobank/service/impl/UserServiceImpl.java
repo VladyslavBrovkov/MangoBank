@@ -18,18 +18,16 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
 
-    private final LoginDataRepository loginDataRepository;
 
 
-    public UserServiceImpl(UserRepository repository, LoginDataRepository loginDataRepository) {
+    public UserServiceImpl(UserRepository repository) {
         this.repository = repository;
-        this.loginDataRepository = loginDataRepository;
     }
 
     @Override
     public void addUser(UserDtoRequest userDtoRequest) {
         var user = UserDtoRequest.to(userDtoRequest);
-        if (!loginDataRepository.findExistByEmail(user.getLoginData().getLoginEmail())) {
+        if (repository.findExistByEmail(user.getLoginData().getLoginEmail())) {
             user.setRegistrationDate(new Date());
             repository.save(user);
         } else {
@@ -40,7 +38,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(UserDtoRequest userDtoRequest) {
         var user = UserDtoRequest.to(userDtoRequest);
-        if (loginDataRepository.findExistByEmail((user.getLoginData().getLoginEmail()))) {
+        if (repository.findExistByEmail((user.getLoginData().getLoginEmail()))) {
             Long userId = repository.getIdByEmail(user.getLoginData().getLoginEmail());
             repository.deleteById(userId);
         } else {
@@ -76,7 +74,7 @@ public class UserServiceImpl implements UserService {
     public User updateUserLoginData(UserDtoRequest userDtoRequest) {
         var user = UserDtoRequest.to(userDtoRequest);
         var loginData = user.getLoginData();
-        if (loginDataRepository.findExistByEmail(loginData.getLoginEmail())) {
+        if (repository.findExistByEmail(loginData.getLoginEmail())) {
             Long userId = repository.getIdByEmail(loginData.getLoginEmail());
             User userFromDb = repository.findById(userId).get();
             userFromDb.setLoginData(loginData);
