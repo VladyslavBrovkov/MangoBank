@@ -17,7 +17,7 @@ public class UserDtoResponse {
     private String firstName;
     private String lastName;
     private String phone;
-    private Date registrationDate;
+    private Date registrationDate; //todo add property email to UserDtoResponse
     private Role role;
 
     public static UserDtoResponse from(User user) {

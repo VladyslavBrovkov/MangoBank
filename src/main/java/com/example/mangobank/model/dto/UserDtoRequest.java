@@ -39,4 +39,22 @@ public class UserDtoRequest {
         return user;
     }
 
+    public User to(User entity) { //todo use this approach when we call update existing entity
+        //LoginData loginData = new LoginData();
+//        user.setLoginData(loginData); //todo think should we update loginData in this method?
+//        loginData.setUser(user);
+//        loginData.setLoginEmail(userDtoRequest.getLoginEmail());
+//        loginData.setPassword(userDtoRequest.getPassword());
+//        loginData.setSecretWord(userDtoRequest.getSecretWord());
+        entity.setFirstName(firstName);
+        entity.setLastName(lastName);
+        entity.setPhone(phone);
+//        if (userDtoRequest.getRole() == null) { //todo check if this needed here
+//            user.setRole(Role.CLIENT);
+//        } else {
+//            user.setRole(userDtoRequest.getRole());
+//        }
+        return entity;
+    }
+
 }
