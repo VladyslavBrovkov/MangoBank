@@ -1,7 +1,6 @@
 package com.example.mangobank.model.dto;
 
 import com.example.mangobank.enumerated.Currency;
-import com.example.mangobank.model.entity.Account;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentDtoResponse {
+public class PaymentDto {
 
     private Long id;
 

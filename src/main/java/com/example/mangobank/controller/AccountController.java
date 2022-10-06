@@ -1,10 +1,6 @@
 package com.example.mangobank.controller;
 
-import com.example.mangobank.model.dto.AccountDtoRequest;
-import com.example.mangobank.model.dto.AccountDtoResponse;
-import com.example.mangobank.model.dto.UserDtoRequest;
-import com.example.mangobank.model.dto.UserDtoResponse;
-import com.example.mangobank.model.entity.Account;
+import com.example.mangobank.model.dto.AccountDto;
 import com.example.mangobank.service.impl.AccountServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +19,13 @@ public class AccountController {
     }
 
     @GetMapping("/getAll")
-    public List<AccountDtoResponse> getAllAccounts() {
+    public List<AccountDto> getAllAccounts() {
         return service.getAll();
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createAccount(@Validated @RequestBody AccountDtoRequest accountDtoRequest){
-        service.addAccount(accountDtoRequest);
+    public ResponseEntity<String> createAccount(@Validated @RequestBody AccountDto accountDto){
+        service.addAccount(accountDto);
         return new ResponseEntity<>("Account successfully added", HttpStatus.OK);
     }
 

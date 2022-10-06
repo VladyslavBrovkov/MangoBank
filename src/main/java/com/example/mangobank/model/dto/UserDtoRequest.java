@@ -20,7 +20,7 @@ public class UserDtoRequest {
     private Role role;
 
 
-    public static User to(UserDtoRequest userDtoRequest){
+    public static User to(UserDtoRequest userDtoRequest) {
         User user = new User();
         LoginData loginData = new LoginData();
         user.setLoginData(loginData);
@@ -31,7 +31,11 @@ public class UserDtoRequest {
         user.setFirstName(userDtoRequest.getFirstName()); //todo: builder
         user.setLastName(userDtoRequest.getLastName());
         user.setPhone(userDtoRequest.getPhone());
-        user.setRole(Role.CLIENT);
+        if (userDtoRequest.getRole() == null) {
+            user.setRole(Role.CLIENT);
+        } else {
+            user.setRole(userDtoRequest.getRole());
+        }
         return user;
     }
 

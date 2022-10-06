@@ -1,6 +1,6 @@
 package com.example.mangobank.service.impl;
 
-import com.example.mangobank.model.dto.PaymentDtoRequest;
+import com.example.mangobank.model.dto.PaymentDto;
 import com.example.mangobank.model.entity.Payment;
 import com.example.mangobank.repository.AccountRepository;
 import com.example.mangobank.repository.PaymentRepository;
@@ -31,7 +31,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void createPayment(PaymentDtoRequest payment) {
+    public void createPayment(PaymentDto payment) {
 
     }
 

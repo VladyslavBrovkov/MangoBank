@@ -1,7 +1,6 @@
 package com.example.mangobank.service.impl;
 
-import com.example.mangobank.model.dto.AccountDtoRequest;
-import com.example.mangobank.model.dto.AccountDtoResponse;
+import com.example.mangobank.model.dto.AccountDto;
 import com.example.mangobank.model.entity.Account;
 import com.example.mangobank.repository.AccountRepository;
 import com.example.mangobank.repository.UserRepository;
@@ -26,8 +25,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void addAccount(AccountDtoRequest account) {
-        var dbAccount = AccountDtoRequest.to(account);
+    public void addAccount(AccountDto account) {
+        var dbAccount = AccountDto.to(account);
         if (!findAccountByIban(dbAccount.getIban())) {
             var user = userRepository.findById(account.getUserId());
             if (user.isPresent()) {
@@ -77,7 +76,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<AccountDtoResponse> getAll() {
-        return accountRepository.findAll().stream().map(a -> AccountDtoResponse.from(a)).collect(Collectors.toList());
+    public List<AccountDto> getAll() {
+        return accountRepository.findAll().stream().map(a -> AccountDto.from(a)).collect(Collectors.toList());
     }
 }

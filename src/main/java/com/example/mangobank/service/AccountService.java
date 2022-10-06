@@ -1,14 +1,13 @@
 package com.example.mangobank.service;
 
 
-import com.example.mangobank.model.dto.AccountDtoRequest;
-import com.example.mangobank.model.dto.AccountDtoResponse;
+import com.example.mangobank.model.dto.AccountDto;
 import com.example.mangobank.model.entity.Account;
 
 import java.util.List;
 
 public interface AccountService {
-    void addAccount(AccountDtoRequest account);
+    void addAccount(AccountDto account);
 
     void deleteAccountById(Long id);
 
@@ -16,5 +15,5 @@ public interface AccountService {
 
     Account updateAccount(Account account);
 
-    List<AccountDtoResponse> getAll();
+    List<AccountDto> getAll();
 }
