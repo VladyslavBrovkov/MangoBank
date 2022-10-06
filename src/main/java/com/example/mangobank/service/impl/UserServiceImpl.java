@@ -1,7 +1,9 @@
 package com.example.mangobank.service.impl;
 
+import com.example.mangobank.model.dto.LoginDataDto;
 import com.example.mangobank.model.dto.UserDtoRequest;
 import com.example.mangobank.model.dto.UserDtoResponse;
+import com.example.mangobank.model.entity.LoginData;
 import com.example.mangobank.model.entity.User;
 import com.example.mangobank.repository.LoginDataRepository;
 import com.example.mangobank.repository.UserRepository;
@@ -59,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUserInfo(UserDtoRequest userDtoRequest) {
-        var user = UserDtoRequest.to(userDtoRequest);
+        User user = UserDtoRequest.to(userDtoRequest);
         if (repository.findExistByPhone(user.getPhone())) {
             Long userId = repository.getIdByPhone(user.getPhone());
             User userFromDb = repository.findById(userId).get();
@@ -68,21 +70,21 @@ public class UserServiceImpl implements UserService {
             userFromDb.setLastName(user.getLastName());
             return repository.save(userFromDb);
         } else {
-            throw new EntityNotFoundException("Nu such user for update");
+            throw new EntityNotFoundException("No such user for update");
         }
     }
 
     @Override
-    public User updateUserLoginData(UserDtoRequest userDtoRequest) {
-        var user = UserDtoRequest.to(userDtoRequest);
-        var loginData = user.getLoginData();
-        if (loginDataRepository.findExistByEmail(loginData.getLoginEmail())) {
-            Long userId = repository.getIdByEmail(loginData.getLoginEmail());
-            User userFromDb = repository.findById(userId).get();
-            userFromDb.setLoginData(loginData);
-            return repository.save(userFromDb);
+    public void updateUserLoginData(LoginDataDto loginDataDto) {
+        if (loginDataRepository.findExistBySecretWord(loginDataDto.getOldSecretWord())) {
+            Long loginDataId = loginDataRepository.getIdBySecretWord(loginDataDto.getOldSecretWord());
+            LoginData loginData = loginDataRepository.findById(loginDataId).get();
+            loginData.setLoginEmail(loginDataDto.getNewLoginEmail());
+            loginData.setPassword(loginDataDto.getNewPassword());
+            loginData.setSecretWord(loginDataDto.getNewSecretWord());
+            loginDataRepository.save(loginData);
         } else {
-            throw new EntityNotFoundException("Nu user with such Email");
+            throw new EntityNotFoundException("No user with such loginData");
         }
     }
 

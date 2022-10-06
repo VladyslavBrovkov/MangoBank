@@ -1,5 +1,6 @@
 package com.example.mangobank.service;
 
+import com.example.mangobank.model.dto.LoginDataDto;
 import com.example.mangobank.model.dto.UserDtoRequest;
 import com.example.mangobank.model.dto.UserDtoResponse;
 import com.example.mangobank.model.entity.User;
@@ -15,7 +16,7 @@ public interface UserService {
 
     User updateUserInfo(UserDtoRequest userDtoRequest);
 
-    User updateUserLoginData(UserDtoRequest userDtoRequest);
+    void updateUserLoginData(LoginDataDto loginDataDto);
 
     List<UserDtoResponse> getAll();
 

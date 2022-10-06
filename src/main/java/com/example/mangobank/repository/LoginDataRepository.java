@@ -9,4 +9,10 @@ import org.springframework.stereotype.Repository;
 public interface LoginDataRepository extends JpaRepository<LoginData,Long> {
     @Query(value = "SELECT COUNT(l)>0 FROM login_data l WHERE l.login_email= :email", nativeQuery = true)
     public boolean findExistByEmail(@Param("email") String email);
+
+    @Query(value = "SELECT COUNT(l)>0 FROM login_data l WHERE l.secret_word= :secretWord", nativeQuery = true)
+    public boolean findExistBySecretWord(@Param("secretWord") String secretWord);
+
+    @Query(value = "SELECT l.id FROM login_data l WHERE l.secret_word = :secretWord", nativeQuery = true)
+    Long getIdBySecretWord(@Param("secretWord") String secretWord);
 }

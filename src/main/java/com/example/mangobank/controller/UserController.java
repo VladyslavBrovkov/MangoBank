@@ -1,5 +1,6 @@
 package com.example.mangobank.controller;
 
+import com.example.mangobank.model.dto.LoginDataDto;
 import com.example.mangobank.model.dto.UserDtoRequest;
 import com.example.mangobank.model.dto.UserDtoResponse;
 import com.example.mangobank.service.impl.UserServiceImpl;
@@ -43,8 +44,8 @@ public class UserController {
     }
 
     @PutMapping("/updateLogin")
-    public ResponseEntity<String> updateUserLoginData(@Validated @RequestBody UserDtoRequest userDtoRequest) {
-        service.updateUserLoginData(userDtoRequest);
+    public ResponseEntity<String> updateUserLoginData(@Validated @RequestBody LoginDataDto loginDataDto) {
+        service.updateUserLoginData(loginDataDto);
         return new ResponseEntity<>("User loginData successfully updated", HttpStatus.OK);
     }
 
