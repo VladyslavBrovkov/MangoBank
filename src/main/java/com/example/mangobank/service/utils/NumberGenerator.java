@@ -19,14 +19,22 @@ public final class NumberGenerator {
     }
 
     private String cardNumberGenerator() {
-        long a = (long) (Math.random() * (24000000 + 1)) + 27000000;
-        long b = (long) (Math.random() * (37000000 + 1)) + 47000000;
-        return a/10000 + " " + a/10000 + " " + b/10000 + " " + b%10000;
+        String cardNumber = "";
+        int a = 0;
+        for (int i = 0; i < 16; i++) {
+            a = (int) (Math.random() * (10 - 1) + 1);
+            cardNumber += a;
+        }
+        return cardNumber;
     }
 
     private String ibanGenerator() {
-        long a = (long) (Math.random() * (14000000 + 1)) + 17000000;
-        long b = (long) (Math.random() * (17000000 + 1)) + 19000000;
-        return "UA" + "00" + a + b + a;
+        String ibanNumber = "UA";
+        int a = 0;
+        for (int i = 0; i < 26; i++) {
+            a = (int) (Math.random() * (10 - 1) + 1);
+            ibanNumber += a;
+        }
+        return ibanNumber;
     }
 }
