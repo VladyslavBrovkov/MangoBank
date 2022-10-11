@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.List;
 
 public interface PaymentService {
-    void createPayment(PaymentDto payment);
+    void createPaymentWithIban(PaymentDto payment);
+
+    void createPaymentWithCardNumber(PaymentDto payment);
 
     List<Payment> findPaymentsBySum(BigDecimal sum);
 

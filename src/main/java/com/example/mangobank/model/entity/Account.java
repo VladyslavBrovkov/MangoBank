@@ -37,8 +37,6 @@ public class Account {
     @OneToMany (mappedBy = "fromAccount")
     private List<Payment> fromAccountPayment;
 
-
-    @Column(name = "IBAN")
     private String iban;
 
     private String cardNumber;

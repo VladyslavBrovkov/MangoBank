@@ -1,12 +1,15 @@
 package com.example.mangobank.service.impl;
 
+import com.example.mangobank.enumerated.Currency;
 import com.example.mangobank.model.dto.PaymentDto;
+import com.example.mangobank.model.entity.Account;
 import com.example.mangobank.model.entity.Payment;
 import com.example.mangobank.repository.AccountRepository;
 import com.example.mangobank.repository.PaymentRepository;
 import com.example.mangobank.repository.UserRepository;
 import com.example.mangobank.service.PaymentService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
@@ -30,8 +33,30 @@ public class PaymentServiceImpl implements PaymentService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     @Override
-    public void createPayment(PaymentDto payment) {
+    public void createPaymentWithIban(PaymentDto payment) {
+        Account fromAcc = accountRepository.findByIban(payment.getFromIban());
+        Account toAcc = accountRepository.findByIban(payment.getToIban());
+//        if (accountFrom.isPresent() && accountTo.isPresent()) {
+        Payment paymentToInit = new Payment();
+        fromAcc.setBalance(fromAcc.getBalance().subtract(payment.getSumOfPayment()));
+        toAcc.setBalance(toAcc.getBalance().add(payment.getSumOfPayment()));
+        paymentToInit.setFromAccount(fromAcc);
+        paymentToInit.setToAccount(toAcc);
+        paymentToInit.setCurrencyOfPayment(Currency.UAH);
+        paymentToInit.setSumOfPayment(payment.getSumOfPayment());
+        paymentToInit.setPaymentTime(new Date());
+        accountRepository.save(fromAcc);
+        accountRepository.save(toAcc);
+        paymentRepository.save(paymentToInit);
+//        }
+    }
+
+
+    @Transactional
+    @Override
+    public void createPaymentWithCardNumber(PaymentDto payment) {
 
     }
 

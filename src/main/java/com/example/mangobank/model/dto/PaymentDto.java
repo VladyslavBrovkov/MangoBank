@@ -17,9 +17,9 @@ public class PaymentDto {
 
     private Date paymentTime;
 
-    private String fromIBAN;
+    private String fromIban;
 
-    private String toIBAN;
+    private String toIban;
 
     private String fromCard;
 
@@ -28,4 +28,5 @@ public class PaymentDto {
     private BigDecimal sumOfPayment;
 
     private Currency currencyOfPayment;
+
 }

@@ -3,11 +3,14 @@ package com.example.mangobank;
 import com.example.mangobank.enumerated.Currency;
 import com.example.mangobank.enumerated.Role;
 import com.example.mangobank.model.dto.AccountDto;
+import com.example.mangobank.model.dto.PaymentDto;
 import com.example.mangobank.model.dto.UserDtoRequest;
 import com.example.mangobank.service.impl.AccountServiceImpl;
 import com.example.mangobank.service.impl.PaymentServiceImpl;
 import com.example.mangobank.service.impl.UserServiceImpl;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
 
 @Component
 public class DemoDataCreation {
@@ -62,18 +65,23 @@ public class DemoDataCreation {
         AccountDto ac1 = new AccountDto();
         ac1.setUserId(2L);
         ac1.setCurrency(Currency.UAH);
+        ac1.setBalance(BigDecimal.valueOf(1000.00));
         AccountDto ac2 = new AccountDto();
         ac2.setUserId(2L);
         ac2.setCurrency(Currency.EUR);
+        ac2.setBalance(BigDecimal.valueOf(1000.00));
         AccountDto ac3 = new AccountDto();
         ac3.setUserId(2L);
         ac3.setCurrency(Currency.USD);
+        ac3.setBalance(BigDecimal.valueOf(1000.00));
         AccountDto ac4 = new AccountDto();
         ac4.setUserId(3L);
         ac4.setCurrency(Currency.UAH);
+        ac4.setBalance(BigDecimal.valueOf(1000.00));
         AccountDto ac5 = new AccountDto();
         ac5.setUserId(4L);
         ac5.setCurrency(Currency.UAH);
+        ac5.setBalance(BigDecimal.valueOf(1000.00));
         accountService.addAccount(ac1);
         accountService.addAccount(ac2);
         accountService.addAccount(ac3);

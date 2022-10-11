@@ -42,7 +42,7 @@ public class AccountDto {
         NumberGenerator nb = new NumberGenerator();
         account.setToAccountPayment(new ArrayList<>());
         account.setFromAccountPayment(new ArrayList<>());
-        account.setBalance(BigDecimal.valueOf(0.0));
+        account.setBalance(accountDto.getBalance());
         account.setCurrency(accountDto.getCurrency());
         account.setCardNumber(nb.getGeneratedCardNumber());
         account.setIban(nb.getGeneratedIbanNumber());
