@@ -19,26 +19,6 @@ public class PaymentController {
     public PaymentController(PaymentServiceImpl paymentService) {
         this.paymentService = paymentService;
     }
-//
-//    @GetMapping("/getAll")
-//    public List<Payment> getAllPayments() {
-//        return paymentService.findAll();
-//    }
-//
-//    @GetMapping("/account/from/{accountFromId}")
-//    public List<Payment> getFromAccountPayments(@PathVariable Long accountFromId) {
-//        return paymentService.findAll();
-//    }
-//
-//    @GetMapping("/account/to/{accountToId}")
-//    public List<Payment> getToAccountPayments(@PathVariable Long accountToId) {
-//        return paymentRepository.findAll();
-//    }
-//
-//    @GetMapping("/user/{userId}")
-//    public List<Payment> getUserPayment(@PathVariable Long userId) {
-//        return new ArrayList<>();
-//    }
 
     @PostMapping("/create")
     public ResponseEntity<String> createPayment(@RequestBody PaymentDto paymentDto) {
