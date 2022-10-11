@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(UserDtoRequest userDtoRequest) {
-        var user = UserDtoRequest.to(userDtoRequest);
-        if (!loginDataRepository.findExistByEmail(user.getLoginData().getLoginEmail())) {
+        if (!loginDataRepository.existByEmail(userDtoRequest.getLoginEmail())) {
+            User user = UserDtoRequest.to(userDtoRequest); //todo: read about var +-
             user.setRegistrationDate(new Date());
             repository.save(user);
         } else {
@@ -41,15 +41,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(UserDtoRequest userDtoRequest) {
-        var user = UserDtoRequest.to(userDtoRequest);
-        if (loginDataRepository.findExistByEmail((user.getLoginData().getLoginEmail()))) {
-            Long userId = repository.getIdByEmail(user.getLoginData().getLoginEmail());
-            repository.deleteById(userId);
-        } else {
-            throw new EntityNotFoundException("No such user");
-        }
+    public void deleteUser(UserDtoRequest userDto) {
+        User user = repository.findByEmail(userDto.getLoginEmail())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        repository.delete(user);
     }
+
+//        userOpt.ifPresentOrElse(repository::delete, //todo: refactor
+//            () -> new EntityNotFoundException("No such user"));
+//        userOpt.map(o -> repository.deleteById(o.getId()))
+//            .orElseThrow(MyCustomException::new);
 
     @Override
     public void deleteUserById(Long id) {
@@ -61,20 +62,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUserInfo(UserDtoRequest userDtoRequest) {
-        if (loginDataRepository.findExistByEmail(userDtoRequest.getLoginEmail())) {
-            User user = repository.getUserById(repository.getIdByEmail(userDtoRequest.getLoginEmail()));
-            user = userDtoRequest.updateUserInfo(user);
-            return repository.save(user);
-        }
-        else {
-            throw new EntityNotFoundException("No such user for update");
-        }
+    public User updateUserInfo(UserDtoRequest userDto) {
+        User user = repository.findByEmail(userDto.getLoginEmail())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        return repository.save(userDto.updateUserInfo(user));
     }
 
+
     @Override
-    public void updateUserLoginData(LoginDataDto loginDataDto) {
-        if (loginDataRepository.findExistBySecretWord(loginDataDto.getOldSecretWord())) {
+    public void updateUserLoginData(LoginDataDto loginDataDto) {  //todo: check exist + find in Repo
+        if (loginDataRepository.existBySecretWord(loginDataDto.getOldSecretWord())) {
             Long loginDataId = loginDataRepository.getIdBySecretWord(loginDataDto.getOldSecretWord());
             LoginData loginData = loginDataRepository.findById(loginDataId).get();
             loginData.setLoginEmail(loginDataDto.getNewLoginEmail());

@@ -7,12 +7,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LoginDataRepository extends JpaRepository<LoginData,Long> {
-    @Query(value = "SELECT COUNT(l)>0 FROM login_data l WHERE l.login_email= :email", nativeQuery = true)
-    public boolean findExistByEmail(@Param("email") String email);
+    @Query("SELECT COUNT(l)>0 FROM LoginData l WHERE l.loginEmail= :email")
+    boolean existByEmail(@Param("email") String email);
 
-    @Query(value = "SELECT COUNT(l)>0 FROM login_data l WHERE l.secret_word= :secretWord", nativeQuery = true)
-    public boolean findExistBySecretWord(@Param("secretWord") String secretWord);
+    @Query("SELECT COUNT(l)>0 FROM LoginData l WHERE l.secretWord= :secretWord")
+    boolean existBySecretWord(@Param("secretWord") String secretWord); //todo: findBySecretWord and move to UserRepo + return User Optional
 
-    @Query(value = "SELECT l.id FROM login_data l WHERE l.secret_word = :secretWord", nativeQuery = true)
+    @Query("SELECT l.id FROM LoginData l WHERE l.secretWord = :secretWord")
     Long getIdBySecretWord(@Param("secretWord") String secretWord);
 }

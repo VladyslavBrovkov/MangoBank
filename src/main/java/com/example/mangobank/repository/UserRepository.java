@@ -13,13 +13,17 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT u.id FROM Users u WHERE u.login_data= (SELECT l.id FROM login_data l WHERE l.login_email = :email)", nativeQuery = true)
-    Long getIdByEmail(@Param("email") String email);
+    Optional<Long> getIdByEmail(@Param("email") String email);
 
     @Query(value = "SELECT u.id FROM Users u WHERE u.phone = :phone", nativeQuery = true)
-    Long getIdByPhone(@Param("phone") String phone);
+    Long getIdByPhone(@Param("phone") String phone); //todo: findByPhone Optional
+
+    @Query("SELECT u FROM User u JOIN u.loginData l WHERE l.loginEmail = :email")
+    Optional<User> findByEmail(@Param("email") String email);
 
     @Query(value = "SELECT COUNT(p)>0 FROM Users p WHERE phone = :phone", nativeQuery = true)
     boolean findExistByPhone(@Param("phone") String phone);
+
 
     @Query(value = "SELECT * FROM Users WHERE id = :id", nativeQuery = true)
     User getUserById(@Param("id") Long id);
