@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,22 +36,17 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Transactional
     @Override
-    public void createPaymentWithIban(PaymentDto payment) {
-        Account fromAcc = accountRepository.findByIban(payment.getFromIban());
-        Account toAcc = accountRepository.findByIban(payment.getToIban());
-//        if (accountFrom.isPresent() && accountTo.isPresent()) {
-        Payment paymentToInit = new Payment();
+    public void createPaymentWithIban(PaymentDto paymentDto) {
+        Account fromAcc = accountRepository.findByIban(paymentDto.getFromIban())
+                .orElseThrow(() -> new EntityNotFoundException("No fromAcc with such IBAN"));
+        Account toAcc = accountRepository.findByIban(paymentDto.getToIban())
+                .orElseThrow(() -> new EntityNotFoundException("No toAcc with such IBAN"));
+        Payment payment = PaymentDto.fromByIban(paymentDto);
         fromAcc.setBalance(fromAcc.getBalance().subtract(payment.getSumOfPayment()));
-        toAcc.setBalance(toAcc.getBalance().add(payment.getSumOfPayment()));
-        paymentToInit.setFromAccount(fromAcc);
-        paymentToInit.setToAccount(toAcc);
-        paymentToInit.setCurrencyOfPayment(Currency.UAH);
-        paymentToInit.setSumOfPayment(payment.getSumOfPayment());
-        paymentToInit.setPaymentTime(new Date());
-        accountRepository.save(fromAcc);
-        accountRepository.save(toAcc);
-        paymentRepository.save(paymentToInit);
-//        }
+        toAcc.setBalance(toAcc.getBalance().subtract(payment.getSumOfPayment()));
+        payment.setFromAccount(fromAcc);
+        payment.setToAccount(toAcc);
+        paymentRepository.save(payment);
     }
 
 

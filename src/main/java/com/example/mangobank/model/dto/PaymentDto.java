@@ -1,6 +1,7 @@
 package com.example.mangobank.model.dto;
 
 import com.example.mangobank.enumerated.Currency;
+import com.example.mangobank.model.entity.Payment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,5 +29,13 @@ public class PaymentDto {
     private BigDecimal sumOfPayment;
 
     private Currency currencyOfPayment;
+
+    public static Payment fromByIban(PaymentDto paymentDto){
+        Payment payment = new Payment();
+        payment.setPaymentTime(new Date());
+        payment.setSumOfPayment(paymentDto.getSumOfPayment());
+        payment.setCurrencyOfPayment(Currency.UAH);
+        return payment;
+    }
 
 }

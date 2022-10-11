@@ -2,18 +2,16 @@ package com.example.mangobank.service;
 
 
 import com.example.mangobank.model.dto.AccountDto;
-import com.example.mangobank.model.entity.Account;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface AccountService {
-    void addAccount(AccountDto account);
+    void createAccount(Long userId);
 
     void deleteAccountById(Long id);
 
-    boolean findAccountByIban(String iban);
-
-    Account updateAccount(Account account);
+    void putMoneyOnAccount(AccountDto accountDto);
 
     List<AccountDto> getAll();
 }

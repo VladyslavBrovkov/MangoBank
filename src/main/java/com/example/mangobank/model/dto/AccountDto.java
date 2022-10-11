@@ -27,6 +27,8 @@ public class AccountDto {
 
     private BigDecimal balance;
 
+    private BigDecimal moneyToAccount;
+
     public static AccountDto from(Account account) {
         AccountDto accountDto = new AccountDto();
         accountDto.setId(account.getId());
@@ -37,12 +39,12 @@ public class AccountDto {
         return accountDto;
     }
 
-    public static Account to(AccountDto accountDto){
+    public static Account to(){
         Account account = new Account();
         NumberGenerator nb = new NumberGenerator();
         account.setToAccountPayment(new ArrayList<>());
         account.setFromAccountPayment(new ArrayList<>());
-        account.setBalance(accountDto.getBalance());
+        account.setBalance(BigDecimal.valueOf(0.0));
         account.setCurrency(Currency.UAH);
         account.setCardNumber(nb.getGeneratedCardNumber());
         account.setIban(nb.getGeneratedIbanNumber());

@@ -62,26 +62,11 @@ public class DemoDataCreation {
         userService.addUser(user1);
         userService.addUser(user2);
         userService.addUser(user3);
-        AccountDto ac1 = new AccountDto();
-        ac1.setUserId(2L);
-        ac1.setBalance(BigDecimal.valueOf(1000.00));
-        AccountDto ac2 = new AccountDto();
-        ac2.setUserId(2L);
-        ac2.setBalance(BigDecimal.valueOf(1500.00));
-        AccountDto ac3 = new AccountDto();
-        ac3.setUserId(2L);
-        ac3.setBalance(BigDecimal.valueOf(2000.00));
-        AccountDto ac4 = new AccountDto();
-        ac4.setUserId(3L);
-        ac4.setBalance(BigDecimal.valueOf(3000.00));
-        AccountDto ac5 = new AccountDto();
-        ac5.setUserId(4L);
-        ac5.setBalance(BigDecimal.valueOf(8000.00));
-        accountService.addAccount(ac1);
-        accountService.addAccount(ac2);
-        accountService.addAccount(ac3);
-        accountService.addAccount(ac4);
-        accountService.addAccount(ac5);
+        accountService.createAccount(1L);
+        accountService.createAccount(2L);
+        accountService.createAccount(4L);
+        accountService.createAccount(2L);
+        accountService.createAccount(1L);
     }
 
 }

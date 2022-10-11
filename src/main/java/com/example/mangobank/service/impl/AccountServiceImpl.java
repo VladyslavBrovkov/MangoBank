@@ -2,13 +2,15 @@ package com.example.mangobank.service.impl;
 
 import com.example.mangobank.model.dto.AccountDto;
 import com.example.mangobank.model.entity.Account;
+import com.example.mangobank.model.entity.User;
 import com.example.mangobank.repository.AccountRepository;
 import com.example.mangobank.repository.UserRepository;
 import com.example.mangobank.service.AccountService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,58 +27,32 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void addAccount(AccountDto account) {
-        var dbAccount = AccountDto.to(account);
-        if (!findAccountByIban(dbAccount.getIban())) {
-            var user = userRepository.findById(account.getUserId());
-            if (user.isPresent()) {
-                dbAccount.setUser(user.get());
-                accountRepository.save(dbAccount);
-            } else {
-                throw new EntityNotFoundException("No such User in db");
-            }
-        } else {
-            throw new EntityExistsException("Account with such IBAN already exists");
-        }
+    public void createAccount(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User with such id was not found"));
+        Account account = AccountDto.to();
+        account.setUser(user);
+        accountRepository.save(account);
     }
 
     @Override
     public void deleteAccountById(Long id) {
-        var account = accountRepository.findById(id);
-        if (account.isPresent()) {
-            accountRepository.delete(account.get());
-        } else {
-            throw new EntityNotFoundException("No account with such ID");
-        }
+        Account account = accountRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Account was not found"));
+        accountRepository.deleteById(account.getId());
     }
 
+    @Transactional
     @Override
-    public boolean findAccountByIban(String iban) {
-        List<Account> finalList = accountRepository.findAll().stream()
-                .filter(a -> a.getIban().trim().equals(iban.trim())).toList();
-        return !finalList.isEmpty();
-    }
-
-    @Override
-    public Account updateAccount(Account account) {
-        Long id = account.getId();
-        if (findAccountByIban(account.getIban())) {
-            var dbAccount = accountRepository.findById(id).get();
-            dbAccount.setIban(account.getIban());
-            dbAccount.setBalance(account.getBalance());
-            dbAccount.setToAccountPayment(account.getToAccountPayment());
-            dbAccount.setFromAccountPayment(account.getFromAccountPayment());
-            dbAccount.setIban(account.getIban());
-            dbAccount.setUser(account.getUser());
-            dbAccount.setCardNumber(account.getCardNumber());
-            return accountRepository.save(dbAccount);
-        } else {
-            throw new EntityNotFoundException("No such account");
-        }
+    public void putMoneyOnAccount(AccountDto accountDto) {
+        Account account = accountRepository.findByIban(accountDto.getIban())
+                .orElseThrow(() -> new EntityNotFoundException("No account with such IBAN"));
+        account.setBalance(account.getBalance().add(accountDto.getMoneyToAccount()));
     }
 
     @Override
     public List<AccountDto> getAll() {
-        return accountRepository.findAll().stream().map(a -> AccountDto.from(a)).collect(Collectors.toList());
+        return accountRepository.findAll().stream()
+                .map(AccountDto::from).collect(Collectors.toList());
     }
 }
