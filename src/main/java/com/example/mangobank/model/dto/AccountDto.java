@@ -43,7 +43,7 @@ public class AccountDto {
         account.setToAccountPayment(new ArrayList<>());
         account.setFromAccountPayment(new ArrayList<>());
         account.setBalance(accountDto.getBalance());
-        account.setCurrency(accountDto.getCurrency());
+        account.setCurrency(Currency.UAH);
         account.setCardNumber(nb.getGeneratedCardNumber());
         account.setIban(nb.getGeneratedIbanNumber());
         return account;

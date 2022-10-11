@@ -21,12 +21,12 @@ public class UserController {
     }
 
     @GetMapping("/getAll") //admin
-    public List<UserDtoResponse> getAllClients() {
+    public List<UserDtoResponse> getAllUsers() {
         return service.getAll();
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createUser(@RequestBody UserDtoRequest userDtoRequest) {
+    public ResponseEntity<String> createUser(@Validated @RequestBody UserDtoRequest userDtoRequest) {
         service.addUser(userDtoRequest);
         return new ResponseEntity<>("User successfully added", HttpStatus.OK);
     }
@@ -49,7 +49,7 @@ public class UserController {
         return new ResponseEntity<>("User loginData successfully updated", HttpStatus.OK);
     }
 
-    @GetMapping("/details/{user_id}") //todo: refactor
+    @GetMapping("/details/{user_id}")
     public UserDtoResponse getUserDetails(@PathVariable Long user_id) {
         return service.getUserById(user_id);
     }

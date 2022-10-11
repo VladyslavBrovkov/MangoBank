@@ -17,11 +17,8 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-
     private final UserRepository userRepository;
-
     private final LoginDataRepository loginDataRepository;
-
 
     public UserServiceImpl(UserRepository repository, LoginDataRepository loginDataRepository) {
         this.userRepository = repository;
@@ -48,11 +45,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUserById(Long id) {
-        if (userRepository.findById(id).isPresent()) {
-            userRepository.deleteById(id);
-        } else {
-            throw new EntityNotFoundException("No user with such id");
-        }
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No user with such id"));
+        userRepository.deleteById(user.getId());
     }
 
     @Override
@@ -62,13 +57,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(userDto.updateUserInfo(user));
     }
 
-
     @Override
     public LoginData updateUserLoginData(LoginDataDto loginDataDto) {
         LoginData loginData = loginDataRepository.findBySecretWord(loginDataDto.getOldSecretWord())
                 .orElseThrow(() -> new EntityNotFoundException("Incorrect secret word"));
         return loginDataRepository.save(loginDataDto.updateLoginData(loginData));
-
     }
 
     @Override
