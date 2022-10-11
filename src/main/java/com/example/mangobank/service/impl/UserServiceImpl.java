@@ -14,6 +14,7 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -61,15 +62,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUserInfo(UserDtoRequest userDtoRequest) {
-        User user = UserDtoRequest.to(userDtoRequest);
-        if (repository.findExistByPhone(user.getPhone())) {
-            Long userId = repository.getIdByPhone(user.getPhone());
-            User userFromDb = repository.findById(userId).get();
-            userFromDb.setPhone(user.getPhone());
-            userFromDb.setFirstName(user.getFirstName());
-            userFromDb.setLastName(user.getLastName());
-            return repository.save(userFromDb);
-        } else {
+        if (loginDataRepository.findExistByEmail(userDtoRequest.getLoginEmail())) {
+            User user = repository.getUserById(repository.getIdByEmail(userDtoRequest.getLoginEmail()));
+            user = userDtoRequest.updateUserInfo(user);
+            return repository.save(user);
+        }
+        else {
             throw new EntityNotFoundException("No such user for update");
         }
     }

@@ -39,4 +39,11 @@ public class UserDtoRequest {
         return user;
     }
 
+    public User updateUserInfo(User user) {
+        user.setPhone(phone);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        return user;
+    }
+
 }
