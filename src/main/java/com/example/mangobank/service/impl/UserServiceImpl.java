@@ -14,27 +14,26 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
 
     private final LoginDataRepository loginDataRepository;
 
 
     public UserServiceImpl(UserRepository repository, LoginDataRepository loginDataRepository) {
-        this.repository = repository;
+        this.userRepository = repository;
         this.loginDataRepository = loginDataRepository;
     }
 
     @Override
     public void addUser(UserDtoRequest userDtoRequest) {
-        if (!loginDataRepository.existByEmail(userDtoRequest.getLoginEmail())) {
-            User user = UserDtoRequest.to(userDtoRequest); //todo: read about var +-
+        if (loginDataRepository.findByEmail(userDtoRequest.getLoginEmail()).isEmpty()) {
+            User user = UserDtoRequest.to(userDtoRequest);
             user.setRegistrationDate(new Date());
-            repository.save(user);
+            userRepository.save(user);
         } else {
             throw new EntityExistsException("User already exists");
         }
@@ -42,20 +41,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(UserDtoRequest userDto) {
-        User user = repository.findByEmail(userDto.getLoginEmail())
+        User user = userRepository.findByEmail(userDto.getLoginEmail())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
-        repository.delete(user);
+        userRepository.delete(user);
     }
-
-//        userOpt.ifPresentOrElse(repository::delete, //todo: refactor
-//            () -> new EntityNotFoundException("No such user"));
-//        userOpt.map(o -> repository.deleteById(o.getId()))
-//            .orElseThrow(MyCustomException::new);
 
     @Override
     public void deleteUserById(Long id) {
-        if (repository.findById(id).isPresent()) {
-            repository.deleteById(id);
+        if (userRepository.findById(id).isPresent()) {
+            userRepository.deleteById(id);
         } else {
             throw new EntityNotFoundException("No user with such id");
         }
@@ -63,39 +57,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUserInfo(UserDtoRequest userDto) {
-        User user = repository.findByEmail(userDto.getLoginEmail())
+        User user = userRepository.findByEmail(userDto.getLoginEmail())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
-        return repository.save(userDto.updateUserInfo(user));
+        return userRepository.save(userDto.updateUserInfo(user));
     }
 
 
     @Override
-    public void updateUserLoginData(LoginDataDto loginDataDto) {  //todo: check exist + find in Repo
-        if (loginDataRepository.existBySecretWord(loginDataDto.getOldSecretWord())) {
-            Long loginDataId = loginDataRepository.getIdBySecretWord(loginDataDto.getOldSecretWord());
-            LoginData loginData = loginDataRepository.findById(loginDataId).get();
-            loginData.setLoginEmail(loginDataDto.getNewLoginEmail());
-            loginData.setPassword(loginDataDto.getNewPassword());
-            loginData.setSecretWord(loginDataDto.getNewSecretWord());
-            loginDataRepository.save(loginData);
-        } else {
-            throw new EntityNotFoundException("No user with such loginData");
-        }
+    public LoginData updateUserLoginData(LoginDataDto loginDataDto) {
+        LoginData loginData = loginDataRepository.findBySecretWord(loginDataDto.getOldSecretWord())
+                .orElseThrow(() -> new EntityNotFoundException("Incorrect secret word"));
+        return loginDataRepository.save(loginDataDto.updateLoginData(loginData));
+
     }
 
     @Override
     public List<UserDtoResponse> getAll() {
-        return repository.findAll().stream()
+        return userRepository.findAll().stream()
                 .map(UserDtoResponse::from).toList();
     }
 
     @Override
     public UserDtoResponse getUserById(Long id) {
-        var user = repository.getUserById(id);
-        if (user != null) {
-            return UserDtoResponse.from(user);
-        } else {
-            throw new EntityNotFoundException("No user with such id");
-        }
+        User user = userRepository.getUserById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with such id was not found"));
+        return UserDtoResponse.from(user);
     }
 }

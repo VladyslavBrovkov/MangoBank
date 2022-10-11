@@ -3,6 +3,7 @@ package com.example.mangobank.service;
 import com.example.mangobank.model.dto.LoginDataDto;
 import com.example.mangobank.model.dto.UserDtoRequest;
 import com.example.mangobank.model.dto.UserDtoResponse;
+import com.example.mangobank.model.entity.LoginData;
 import com.example.mangobank.model.entity.User;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface UserService {
 
     User updateUserInfo(UserDtoRequest userDtoRequest);
 
-    void updateUserLoginData(LoginDataDto loginDataDto);
+    LoginData updateUserLoginData(LoginDataDto loginDataDto);
 
     List<UserDtoResponse> getAll();
 

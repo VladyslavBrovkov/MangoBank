@@ -14,24 +14,13 @@ public class LoginDataServiceImpl implements LoginDataService {
 
     private final LoginDataRepository loginDataRepository;
 
-    private final UserRepository userRepository;
 
-    public LoginDataServiceImpl(LoginDataRepository loginDataRepository, UserRepository userRepository) {
+    public LoginDataServiceImpl(LoginDataRepository loginDataRepository) {
         this.loginDataRepository = loginDataRepository;
-        this.userRepository = userRepository;
-    }
-
-    @Override
-    public void updateLoginData(User user) {
-
-    }
-    @Override
-    public User getUserByEmail(String email) {
-        return null;
     }
 
     @Override
     public List<LoginData> getAll() {
-        return null;
+        return loginDataRepository.findAll();
     }
 }
