@@ -7,10 +7,8 @@ import com.example.mangobank.repository.AccountRepository;
 import com.example.mangobank.repository.UserRepository;
 import com.example.mangobank.service.AccountService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,13 +40,6 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.deleteById(account.getId());
     }
 
-    @Transactional
-    @Override
-    public void putMoneyOnAccount(AccountDto accountDto) {
-        Account account = accountRepository.findByIban(accountDto.getIban())
-                .orElseThrow(() -> new EntityNotFoundException("No account with such IBAN"));
-        account.setBalance(account.getBalance().add(accountDto.getMoneyToAccount()));
-    }
 
     @Override
     public List<AccountDto> getAll() {

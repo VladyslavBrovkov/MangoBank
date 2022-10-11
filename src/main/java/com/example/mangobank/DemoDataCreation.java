@@ -1,16 +1,11 @@
 package com.example.mangobank;
 
-import com.example.mangobank.enumerated.Currency;
 import com.example.mangobank.enumerated.Role;
-import com.example.mangobank.model.dto.AccountDto;
-import com.example.mangobank.model.dto.PaymentDto;
 import com.example.mangobank.model.dto.UserDtoRequest;
 import com.example.mangobank.service.impl.AccountServiceImpl;
 import com.example.mangobank.service.impl.PaymentServiceImpl;
 import com.example.mangobank.service.impl.UserServiceImpl;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
 
 @Component
 public class DemoDataCreation {

@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -30,10 +29,10 @@ public class AccountController {
         return new ResponseEntity<>("Account successfully added", HttpStatus.OK);
     }
 
-    @PostMapping("/putMoney")
-    public ResponseEntity<String> putMoneyToAccount(@Validated @RequestBody AccountDto accountDto) {
-        service.putMoneyOnAccount(accountDto);
-        return new ResponseEntity<>("Money on account, success", HttpStatus.OK);
+    @DeleteMapping("/delete/{account_id}")
+    public ResponseEntity<String> deleteAccount(@PathVariable Long account_id) {
+        service.deleteAccountById(account_id);
+        return new ResponseEntity<>("Account successfully added", HttpStatus.OK);
     }
 
 }

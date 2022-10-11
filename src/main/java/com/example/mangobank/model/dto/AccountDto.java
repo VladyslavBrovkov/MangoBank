@@ -27,11 +27,11 @@ public class AccountDto {
 
     private BigDecimal balance;
 
-    private BigDecimal moneyToAccount;
 
     public static AccountDto from(Account account) {
         AccountDto accountDto = new AccountDto();
         accountDto.setId(account.getId());
+        accountDto.setUserId(account.getUser().getId());
         accountDto.setIban(account.getIban());
         accountDto.setCardNumber(account.getCardNumber());
         accountDto.setCurrency(account.getCurrency());

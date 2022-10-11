@@ -1,6 +1,5 @@
 package com.example.mangobank.repository;
 
-import com.example.mangobank.model.entity.LoginData;
 import com.example.mangobank.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
