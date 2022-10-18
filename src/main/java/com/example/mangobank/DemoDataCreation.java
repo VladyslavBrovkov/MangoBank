@@ -23,7 +23,7 @@ public class DemoDataCreation {
     }
 
 
-    public void demoDataCreation() {
+    public void createDemoData() {
         UserDtoRequest admin = new UserDtoRequest();
         admin.setFirstName("ADMIN");
         admin.setLastName("ADMIN");

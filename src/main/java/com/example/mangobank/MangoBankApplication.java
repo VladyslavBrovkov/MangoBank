@@ -1,14 +1,17 @@
 package com.example.mangobank;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class MangoBankApplication implements CommandLineRunner {
-    @Autowired
-    private DemoDataCreation demoDataCreation;
+
+    private final DemoDataCreation demoDataCreation;
+
+    public MangoBankApplication(DemoDataCreation demoDataCreation) {
+        this.demoDataCreation = demoDataCreation;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(MangoBankApplication.class, args);
@@ -16,6 +19,6 @@ public class MangoBankApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        demoDataCreation.demoDataCreation();
+        demoDataCreation.createDemoData();
     }
 }

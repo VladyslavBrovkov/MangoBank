@@ -12,9 +12,9 @@ public interface PaymentService {
 
     void createPaymentWithCardNumber(PaymentDto payment);
 
-    List<Payment> findPaymentsBySum(BigDecimal sum);
+    List<Payment> findPaymentsBySum(BigDecimal sumFrom, BigDecimal sumTo);
 
-    List<Payment> findPaymentsByDate(Date date);
+    List<Payment> findPaymentsByDate(Date dateFrom, Date dateTo);
 
     void deletePaymentById(Long id);
 

@@ -37,15 +37,15 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     @Override
     public void createPaymentWithIban(PaymentDto paymentDto) {
-        Account fromAcc = accountRepository.findByIban(paymentDto.getFromIban())
+        Account accountFrom = accountRepository.findByIban(paymentDto.getFromIban())
                 .orElseThrow(() -> new EntityNotFoundException("No fromAcc with such IBAN"));
-        Account toAcc = accountRepository.findByIban(paymentDto.getToIban())
+        Account accountTo = accountRepository.findByIban(paymentDto.getToIban())
                 .orElseThrow(() -> new EntityNotFoundException("No toAcc with such IBAN"));
-        Payment payment = PaymentDto.fromByIban(paymentDto);
-        fromAcc.setBalance(fromAcc.getBalance().subtract(payment.getSumOfPayment()));
-        toAcc.setBalance(toAcc.getBalance().subtract(payment.getSumOfPayment()));
-        payment.setFromAccount(fromAcc);
-        payment.setToAccount(toAcc);
+        Payment payment = paymentDto.fromByIban(paymentDto);
+        accountFrom.setBalance(accountFrom.getBalance().subtract(payment.getSumOfPayment()));
+        accountTo.setBalance(accountTo.getBalance().subtract(payment.getSumOfPayment()));
+        payment.setFromAccount(accountFrom);
+        payment.setToAccount(accountTo);
         paymentRepository.save(payment);
     }
 
@@ -57,14 +57,16 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<Payment> findPaymentsBySum(BigDecimal sum) {
-        return paymentRepository.findAll().stream().filter(p -> p.getSumOfPayment().equals(sum))
+    public List<Payment> findPaymentsBySum(BigDecimal sumFrom, BigDecimal sumTo) {
+        return paymentRepository.findAll().stream().filter(p -> p.getSumOfPayment().compareTo(sumFrom) > 0
+                        && p.getSumOfPayment().compareTo(sumTo) < 0)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Payment> findPaymentsByDate(Date date) {
-        return paymentRepository.findAll().stream().filter(p -> p.getPaymentTime().equals(date))
+    public List<Payment> findPaymentsByDate(Date dateFrom, Date dateTo) {
+        return paymentRepository.findAll().stream().filter(p -> p.getPaymentTime().after(dateFrom)
+                        && p.getPaymentTime().before(dateTo))
                 .collect(Collectors.toList());
     }
 

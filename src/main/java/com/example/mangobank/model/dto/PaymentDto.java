@@ -30,7 +30,7 @@ public class PaymentDto {
 
     private Currency currencyOfPayment;
 
-    public static Payment fromByIban(PaymentDto paymentDto){
+    public Payment fromByIban(PaymentDto paymentDto){
         Payment payment = new Payment();
         payment.setPaymentTime(new Date());
         payment.setSumOfPayment(paymentDto.getSumOfPayment());
