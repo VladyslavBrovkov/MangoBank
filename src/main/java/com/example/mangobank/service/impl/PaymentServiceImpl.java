@@ -1,6 +1,5 @@
 package com.example.mangobank.service.impl;
 
-import com.example.mangobank.enumerated.Currency;
 import com.example.mangobank.model.dto.PaymentDto;
 import com.example.mangobank.model.entity.Account;
 import com.example.mangobank.model.entity.Payment;
@@ -14,9 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,8 +41,8 @@ public class PaymentServiceImpl implements PaymentService {
         Account accountTo = accountRepository.findByIban(paymentDto.getToIban())
                 .orElseThrow(() -> new EntityNotFoundException("No toAcc with such IBAN"));
         Payment payment = paymentDto.fromByIban(paymentDto);
-        accountFrom.setBalance(accountFrom.getBalance().subtract(payment.getSumOfPayment()));
-        accountTo.setBalance(accountTo.getBalance().subtract(payment.getSumOfPayment()));
+        accountFrom.setBalance(accountFrom.getBalance().subtract(payment.getAmount()));
+        accountTo.setBalance(accountTo.getBalance().subtract(payment.getAmount()));
         payment.setFromAccount(accountFrom);
         payment.setToAccount(accountTo);
         paymentRepository.save(payment);
@@ -57,17 +56,18 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<Payment> findPaymentsBySum(BigDecimal sumFrom, BigDecimal sumTo) {
-        return paymentRepository.findAll().stream().filter(p -> p.getSumOfPayment().compareTo(sumFrom) > 0
-                        && p.getSumOfPayment().compareTo(sumTo) < 0)
+    public List<Payment> findByAmount(BigDecimal amountFrom, BigDecimal amountTo) {
+        return paymentRepository.findAll().stream().filter(p -> p.getAmount().compareTo(amountFrom) > 0
+                        && p.getAmount().compareTo(amountTo) < 0)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Payment> findPaymentsByDate(Date dateFrom, Date dateTo) {
-        return paymentRepository.findAll().stream().filter(p -> p.getPaymentTime().after(dateFrom)
-                        && p.getPaymentTime().before(dateTo))
-                .collect(Collectors.toList());
+    public List<Payment> findByDate(Date dateFrom, Date dateTo) {
+        if (dateFrom.after(dateTo)){
+            return Collections.emptyList();
+        }
+        return paymentRepository.getAllBetweenDates(dateFrom,dateTo);
     }
 
     @Override

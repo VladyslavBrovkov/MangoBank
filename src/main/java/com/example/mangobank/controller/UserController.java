@@ -6,6 +6,7 @@ import com.example.mangobank.model.dto.UserDtoResponse;
 import com.example.mangobank.service.impl.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

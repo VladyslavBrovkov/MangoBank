@@ -33,7 +33,7 @@ public class PaymentDto {
     public Payment fromByIban(PaymentDto paymentDto){
         Payment payment = new Payment();
         payment.setPaymentTime(new Date());
-        payment.setSumOfPayment(paymentDto.getSumOfPayment());
+        payment.setAmount(paymentDto.getSumOfPayment());
         payment.setCurrencyOfPayment(Currency.UAH);
         return payment;
     }

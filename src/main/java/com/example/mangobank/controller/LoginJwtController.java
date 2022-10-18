@@ -31,9 +31,9 @@ public class LoginJwtController {
                     new UsernamePasswordAuthenticationToken(request.getUsername(),
                             request.getPassword()));
         } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
+            throw new Exception("User disabled", e); //todo: custom exception create
         } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
+            throw new Exception("Invalid credentials", e);
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
         final String jwtToken = tokenManager.generateJwtToken(userDetails);

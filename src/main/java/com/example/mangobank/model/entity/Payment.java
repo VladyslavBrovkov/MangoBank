@@ -28,7 +28,7 @@ public class Payment {
     private Account toAccount;
 
     @Column(name = "payment_sum")
-    private BigDecimal sumOfPayment;
+    private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
     private Currency currencyOfPayment;
