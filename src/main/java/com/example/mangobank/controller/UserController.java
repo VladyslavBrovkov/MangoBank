@@ -20,6 +20,7 @@ public class UserController {
         this.service = service;
     }
 
+
     @GetMapping("/getAll") //admin
     public List<UserDtoResponse> getAllUsers() {
         return service.getAll();
