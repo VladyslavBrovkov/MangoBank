@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class MangoBankApplication implements CommandLineRunner {
-    @Autowired
+    @Autowired //todo try to move binding of beans to the constructor without using @Autowired
     private DemoDataCreation demoDataCreation;
 
     public static void main(String[] args) {
@@ -19,3 +19,4 @@ public class MangoBankApplication implements CommandLineRunner {
         demoDataCreation.demoDataCreation();
     }
 }
+//todo please create a README.md file)))

@@ -25,7 +25,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void createAccount(Long userId) {
+    public void createAccount(Long userId) { //todo can be named like create(), or createByUserId() Account is redundant because it is AccountService
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User with such id was not found"));
         Account account = AccountDto.to();
@@ -34,7 +34,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void deleteAccountById(Long id) {
+    public void deleteAccountById(Long id) { //todo can be named like delete(), Account is redundant because it is AccountService, 'byId' is also redundant
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Account was not found"));
         accountRepository.deleteById(account.getId());
@@ -42,7 +42,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public List<AccountDto> getAll() {
+    public List<AccountDto> getAll() {  //todo move in all places to the begin of the class (order for crud: 1 get, 2 create 3 update 4 delete
         return accountRepository.findAll().stream()
                 .map(AccountDto::from).collect(Collectors.toList());
     }

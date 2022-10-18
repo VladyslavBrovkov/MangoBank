@@ -14,7 +14,7 @@ public class LoginDataDto {
     private String oldSecretWord;
     private String newSecretWord;
 
-    public LoginData updateLoginData(LoginData loginData) {
+    public LoginData updateLoginData(LoginData loginData) { //todo rename like 'to(LoginData loginData)
         loginData.setLoginEmail(newLoginEmail);
         loginData.setSecretWord(newSecretWord);
         loginData.setPassword(newPassword);

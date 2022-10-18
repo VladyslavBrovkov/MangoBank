@@ -31,7 +31,7 @@ public class LoginJwtController {
                     new UsernamePasswordAuthenticationToken(request.getUsername(),
                             request.getPassword()));
         } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
+            throw new Exception("USER_DISABLED", e); //todo text or enum? class Exception?
         } catch (BadCredentialsException e) {
             throw new Exception("INVALID_CREDENTIALS", e);
         }

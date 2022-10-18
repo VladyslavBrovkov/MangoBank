@@ -19,13 +19,13 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
-    @PostMapping("/createPaymentBetweenAccounts")
+    @PostMapping("/createPaymentBetweenAccounts") //todo can be named just simple like transfer/create
     public ResponseEntity<String> createPayment(@RequestBody PaymentDto paymentDto) {
         paymentService.createPaymentWithIban(paymentDto);
         return new ResponseEntity<>("Created successfully", HttpStatus.OK);
     }
 
-    @PostMapping("/putMoneyOnMyAccount")
+    @PostMapping("/putMoneyOnMyAccount") //todo can be named as top up account e.g. /account/topup
     public ResponseEntity<String> putMoneyToAccount(@Validated @RequestBody PaymentDto paymentDto) {
         return new ResponseEntity<>("Money on account, success", HttpStatus.OK);
     }

@@ -6,6 +6,7 @@ import com.example.mangobank.model.entity.User;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Data
 public class UserDtoRequest {
@@ -24,7 +25,7 @@ public class UserDtoRequest {
         User user = new User();
         LoginData loginData = new LoginData();
         user.setLoginData(loginData);
-        loginData.setUser(user);
+        loginData.setUser(user); //todo for setting loginData try to use new method in LoginDataDto class -> public LoginData to() { return to(new LoginData()); }
         loginData.setLoginEmail(userDtoRequest.getLoginEmail());
         loginData.setPassword(userDtoRequest.getPassword());
         loginData.setSecretWord(userDtoRequest.getSecretWord());
@@ -39,11 +40,15 @@ public class UserDtoRequest {
         return user;
     }
 
-    public User updateUserInfo(User user) {
+    public User updateUserInfo(User user) { //todo rename to 'to()', it will be overload method, use the same approach in all dto classes
         user.setPhone(phone);
         user.setFirstName(firstName);
         user.setLastName(lastName);
         return user;
     }
+
+    //todo also if needed, we can create  method - public User to() { return to(new User()); }
+    //todo  also if needed create public static UserDTO from(UserDTO input) {
+    //todo also if needed public void from(User entity), that fill this dto
 
 }

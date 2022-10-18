@@ -12,9 +12,9 @@ public interface PaymentService {
 
     void createPaymentWithCardNumber(PaymentDto payment);
 
-    List<Payment> findPaymentsBySum(BigDecimal sum);
+    List<Payment> findPaymentsBySum(BigDecimal sum); //is is good to have a range from - to
 
-    List<Payment> findPaymentsByDate(Date date);
+    List<Payment> findPaymentsByDate(Date date); //todo it is good to have a period - dateFrom - DateTo
 
     void deletePaymentById(Long id);
 

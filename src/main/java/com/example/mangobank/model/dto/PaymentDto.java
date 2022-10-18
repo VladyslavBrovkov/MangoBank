@@ -22,7 +22,7 @@ public class PaymentDto {
 
     private String toIban;
 
-    private String fromCard;
+    private String fromCard; //todo can we create transfer from Iban to card? or just from Iban to Iban, from card to card?
 
     private String toCard;
 
@@ -30,7 +30,8 @@ public class PaymentDto {
 
     private Currency currencyOfPayment;
 
-    public static Payment fromByIban(PaymentDto paymentDto){
+    public static Payment fromByIban(PaymentDto paymentDto){ //todo should be named 'to()' , the idea main class is Dto, so method to() convert class to Entity,
+        // the method from() convert from entity to the dto class. And use this naming convention in all dto-s.
         Payment payment = new Payment();
         payment.setPaymentTime(new Date());
         payment.setSumOfPayment(paymentDto.getSumOfPayment());

@@ -32,7 +32,7 @@ public class UserController {
         return new ResponseEntity<>("User successfully added", HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete") //admin
+    @DeleteMapping("/delete") //admin //todo move delete method to bottom of the class
     public ResponseEntity<String> deleteUser(@Validated @RequestBody UserDtoRequest userDtoRequest) {
         service.deleteUser(userDtoRequest);
         return new ResponseEntity<>("User successfully deleted", HttpStatus.OK);
@@ -50,7 +50,7 @@ public class UserController {
         return new ResponseEntity<>("User loginData successfully updated", HttpStatus.OK);
     }
 
-    @GetMapping("/details/{user_id}")
+    @GetMapping("/details/{user_id}") //todo move method up near the getAll() method
     public UserDtoResponse getUserDetails(@PathVariable Long user_id) {
         return service.getUserById(user_id);
     }

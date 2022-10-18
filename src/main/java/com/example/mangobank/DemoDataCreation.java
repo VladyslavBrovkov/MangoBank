@@ -23,7 +23,7 @@ public class DemoDataCreation {
     }
 
 
-    public void demoDataCreation() {
+    public void demoDataCreation() { //todo naming convention method name is verb, initializeDemoData or createDemoData
         UserDtoRequest admin = new UserDtoRequest();
         admin.setFirstName("ADMIN");
         admin.setLastName("ADMIN");

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
-    @Autowired
+    @Autowired  //todo move binding to the constructor
     private UserRepository userRepository;
 
     @Override

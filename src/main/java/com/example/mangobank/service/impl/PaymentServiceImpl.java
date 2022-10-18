@@ -37,12 +37,12 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     @Override
     public void createPaymentWithIban(PaymentDto paymentDto) {
-        Account fromAcc = accountRepository.findByIban(paymentDto.getFromIban())
+        Account fromAcc = accountRepository.findByIban(paymentDto.getFromIban()) //todo better to name as accountFrom, accountTo
                 .orElseThrow(() -> new EntityNotFoundException("No fromAcc with such IBAN"));
         Account toAcc = accountRepository.findByIban(paymentDto.getToIban())
                 .orElseThrow(() -> new EntityNotFoundException("No toAcc with such IBAN"));
-        Payment payment = PaymentDto.fromByIban(paymentDto);
-        fromAcc.setBalance(fromAcc.getBalance().subtract(payment.getSumOfPayment()));
+        Payment payment = PaymentDto.fromByIban(paymentDto); //todo we can use non-static method here, because we have object paymentDto
+        fromAcc.setBalance(fromAcc.getBalance().subtract(payment.getSumOfPayment())); //todo create methods in Account class topUp(BigDecimal sum), and reduce(BigDecimal sum), or subtract, increase, increment, decrement
         toAcc.setBalance(toAcc.getBalance().subtract(payment.getSumOfPayment()));
         payment.setFromAccount(fromAcc);
         payment.setToAccount(toAcc);
