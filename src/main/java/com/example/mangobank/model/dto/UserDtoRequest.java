@@ -4,11 +4,15 @@ import com.example.mangobank.enumerated.Role;
 import com.example.mangobank.model.entity.LoginData;
 import com.example.mangobank.model.entity.User;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Date;
 
 @Data
 public class UserDtoRequest {
+
     private Long id;
     private String firstName;
     private String lastName;
@@ -21,12 +25,13 @@ public class UserDtoRequest {
 
 
     public static User to(UserDtoRequest userDtoRequest) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         User user = new User();
         LoginData loginData = new LoginData();
         user.setLoginData(loginData);
         loginData.setUser(user);
         loginData.setLoginEmail(userDtoRequest.getLoginEmail());
-        loginData.setPassword(userDtoRequest.getPassword());
+        loginData.setPassword(passwordEncoder.encode(userDtoRequest.getPassword()));
         loginData.setSecretWord(userDtoRequest.getSecretWord());
         user.setFirstName(userDtoRequest.getFirstName()); //todo: builder
         user.setLastName(userDtoRequest.getLastName());
