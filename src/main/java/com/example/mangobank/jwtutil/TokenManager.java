@@ -32,15 +32,6 @@ public class TokenManager implements Serializable {
         return (!isTokenExpired);
     }
 
-    public Boolean validateJwtTokenWithoutExpire(String token) throws Exception {
-        try {
-            Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-            return true;
-        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
-            throw new Exception("Token not valid");
-        }
-    }
-
     public String getUsernameFromToken(String token) {
         final Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
         return claims.getSubject();

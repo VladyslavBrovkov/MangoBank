@@ -5,6 +5,9 @@ import com.example.mangobank.jwtutil.TokenManager;
 import com.example.mangobank.model.dto.JwtRequestModel;
 import com.example.mangobank.model.dto.JwtResponseModel;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -41,7 +44,7 @@ public class LoginJwtController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
         final String jwtToken = tokenManager.generateJwtToken(userDetails);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Set-Cookie", "jwt=" + jwtToken + "; Max-Age=604800; Path=/;");
+        headers.add("Set-Cookie", "jwt=" + jwtToken + "; Max-Age=604800; Path=/; SameSite=None; Secure; HttpOnly");
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(new JwtResponseModel(jwtToken));
@@ -51,18 +54,15 @@ public class LoginJwtController {
     public ResponseEntity<?> refreshToken(@CookieValue("jwt") String token) throws Exception {
         String userName = "";
         String jwtToken = "";
-        if (!tokenManager.validateJwtTokenWithoutExpire(token)) {
-            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        try {
+            tokenManager.validateJwtToken(token);
+        } catch (UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
+            return new ResponseEntity<>("UNAUTHORIZED",HttpStatus.UNAUTHORIZED);
+        } catch (ExpiredJwtException e) {
+            System.out.println("Token was expired");
         }
-        if (tokenManager.validateJwtToken(token)) {
-            try {
-                userName = tokenManager.getUsernameFromToken(token);
-            } catch (ExpiredJwtException e) {
-                System.out.println("JWT Token has expired");
-            }
-            final UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-            jwtToken = tokenManager.generateJwtToken(userDetails);
-        }
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
+        jwtToken = tokenManager.generateJwtToken(userDetails);
         return ResponseEntity.ok(new JwtResponseModel(jwtToken));
     }
 
