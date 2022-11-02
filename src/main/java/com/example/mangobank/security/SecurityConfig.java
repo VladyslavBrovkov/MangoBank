@@ -58,8 +58,8 @@ public class SecurityConfig {
                 .and()
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
                 .authenticationProvider(daoAuthenticationProvider())
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .build();
