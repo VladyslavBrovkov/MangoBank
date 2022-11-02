@@ -47,7 +47,7 @@ public class LoginJwtController {
         final String jwtToken = tokenManager.generateJwtToken(userDetails);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Set-Cookie","jwt=" + jwtToken + "; Max-Age=604800; Path=/; Secure; HttpOnly");
-        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(jwtToken);
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).build();
     }
 
     @GetMapping("/refresh")
