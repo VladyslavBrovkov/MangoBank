@@ -41,7 +41,7 @@ public class LoginJwtController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
         final String jwtToken = tokenManager.generateJwtToken(userDetails);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Set-Cookie", "jwt=" + jwtToken + "; Max-Age=604800; Path=/; HttpOnly");
+        headers.add("Set-Cookie", "jwt=" + jwtToken + "; Max-Age=604800; Path=/;");
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(new JwtResponseModel(jwtToken));
