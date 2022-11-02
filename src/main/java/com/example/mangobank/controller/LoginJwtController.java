@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class LoginJwtController {
 
     @Autowired
