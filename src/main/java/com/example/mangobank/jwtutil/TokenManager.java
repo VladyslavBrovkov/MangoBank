@@ -1,5 +1,6 @@
 package com.example.mangobank.jwtutil;
 
+import com.example.mangobank.model.entity.User;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,8 +19,10 @@ public class TokenManager implements Serializable {
     @Value("${secret}")
     private String jwtSecret;
 
-    public String generateJwtToken(UserDetails userDetails) {
+    public String generateJwtToken(UserDetails userDetails, User userForToken) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("id",userForToken.getId());
+        claims.put("role",userForToken.getRole());
         return Jwts.builder().setClaims(claims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY))

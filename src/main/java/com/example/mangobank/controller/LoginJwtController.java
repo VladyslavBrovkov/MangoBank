@@ -4,6 +4,8 @@ import com.example.mangobank.jwtutil.JwtUserDetailsService;
 import com.example.mangobank.jwtutil.TokenManager;
 import com.example.mangobank.model.dto.JwtRequestModel;
 import com.example.mangobank.model.dto.JwtResponseModel;
+import com.example.mangobank.model.entity.User;
+import com.example.mangobank.repository.UserRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
@@ -19,6 +21,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class LoginJwtController {
@@ -29,6 +33,9 @@ public class LoginJwtController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private TokenManager tokenManager;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping("/login")
     public ResponseEntity<?> createToken(@RequestBody JwtRequestModel request) throws Exception {
@@ -42,7 +49,9 @@ public class LoginJwtController {
             throw new Exception("Invalid credentials", e);
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
-        final String jwtToken = tokenManager.generateJwtToken(userDetails);
+        final User userForToken = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(()->new EntityNotFoundException());
+        final String jwtToken = tokenManager.generateJwtToken(userDetails, userForToken);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Set-Cookie", "jwt=" + jwtToken + "; Max-Age=604800; Path=/; SameSite=None; Secure; HttpOnly");
         return ResponseEntity.ok()
@@ -58,12 +67,14 @@ public class LoginJwtController {
             userName = tokenManager.getUsernameFromToken(token);
         } catch (UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
             System.out.println(e);
-            return new ResponseEntity<>("UNAUTHORIZED",HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
         } catch (ExpiredJwtException e) {
             System.out.println("Token was expired");
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-        String jwtToken = tokenManager.generateJwtToken(userDetails);
+        final User userForToken = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(()->new EntityNotFoundException());
+        String jwtToken = tokenManager.generateJwtToken(userDetails, userForToken);
         return ResponseEntity.ok(new JwtResponseModel(jwtToken));
     }
 
