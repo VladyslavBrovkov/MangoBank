@@ -1,8 +1,6 @@
 package com.example.mangobank.jwtutil;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -29,10 +27,18 @@ public class TokenManager implements Serializable {
     }
 
     public Boolean validateJwtToken(String token) {
-        String username = getUsernameFromToken(token);
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
         Boolean isTokenExpired = claims.getExpiration().before(new Date());
         return (!isTokenExpired);
+    }
+
+    public Boolean validateJwtTokenWithoutExpire(String token) throws Exception {
+        try {
+            Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+            return true;
+        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
+            throw new Exception("Token not valid");
+        }
     }
 
     public String getUsernameFromToken(String token) {

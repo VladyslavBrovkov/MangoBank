@@ -16,11 +16,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class LoginJwtController {
@@ -46,29 +41,29 @@ public class LoginJwtController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
         final String jwtToken = tokenManager.generateJwtToken(userDetails);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Set-Cookie","jwt=" + jwtToken + "; Max-Age=604800; Path=/; Secure; HttpOnly");
+        headers.add("Set-Cookie", "jwt=" + jwtToken + "; Max-Age=604800; Path=/; HttpOnly");
         return ResponseEntity.ok()
                 .headers(headers)
-                .body(jwtToken);
+                .body(new JwtResponseModel(jwtToken));
     }
 
     @GetMapping("/refresh")
     public ResponseEntity<?> refreshToken(@CookieValue("jwt") String token) throws Exception {
         String userName = "";
+        String jwtToken = "";
+        if (!tokenManager.validateJwtTokenWithoutExpire(token)) {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
         if (tokenManager.validateJwtToken(token)) {
             try {
                 userName = tokenManager.getUsernameFromToken(token);
-
-            } catch (IllegalArgumentException e) {
-                System.out.println("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {
                 System.out.println("JWT Token has expired");
             }
             final UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-            final String jwtToken = tokenManager.generateJwtToken(userDetails);
-            return ResponseEntity.ok(new JwtResponseModel(jwtToken));
+            jwtToken = tokenManager.generateJwtToken(userDetails);
         }
-        return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        return ResponseEntity.ok(new JwtResponseModel(jwtToken));
     }
 
 
