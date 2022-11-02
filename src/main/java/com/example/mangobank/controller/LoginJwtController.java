@@ -55,6 +55,7 @@ public class LoginJwtController {
         try {
             tokenManager.validateJwtToken(token);
         } catch (UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
+            System.out.println(e);
             return new ResponseEntity<>("UNAUTHORIZED",HttpStatus.UNAUTHORIZED);
         } catch (ExpiredJwtException e) {
             System.out.println("Token was expired");
