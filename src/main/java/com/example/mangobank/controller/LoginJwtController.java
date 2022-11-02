@@ -51,9 +51,9 @@ public class LoginJwtController {
     }
 
     @GetMapping("/refresh")
-    public ResponseEntity<?> refreshToken(@CookieValue("jwt") String token) throws Exception {
+    public ResponseEntity<?> refreshToken(@CookieValue("jwt") String token) {
         String userName = "";
-        String jwtToken = "";
+        String jwtToken;
         try {
             tokenManager.validateJwtToken(token);
         } catch (UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
