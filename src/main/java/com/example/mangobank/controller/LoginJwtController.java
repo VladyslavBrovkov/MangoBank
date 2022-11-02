@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -50,7 +51,9 @@ public class LoginJwtController {
     }
 
     @GetMapping("/refresh")
-    public ResponseEntity<?> refreshToken(@CookieValue("jwt") String token) throws Exception {
+    public ResponseEntity<?> refreshToken(HttpServletRequest httpServletRequest) throws Exception {
+       Cookie [] cookies = httpServletRequest.getCookies();
+       String token = cookies[0].getValue();
         String userName = "";
         if (!tokenManager.validateJwtToken(token)) {
             try {
