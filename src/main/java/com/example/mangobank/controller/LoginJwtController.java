@@ -47,18 +47,13 @@ public class LoginJwtController {
         final String jwtToken = tokenManager.generateJwtToken(userDetails);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Set-Cookie","jwt=" + jwtToken + "; Max-Age=604800; Path=/; Secure; HttpOnly");
-        return ResponseEntity.status(HttpStatus.OK).headers(headers).build();
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(jwtToken);
     }
 
     @GetMapping("/refresh")
     public ResponseEntity<?> refreshToken(@CookieValue("jwt") String token) throws Exception {
-//        String token = "";
-//        List<String> header = headers.get("Set-Cookie");
-//        for (String st: header) {
-//            if (st.startsWith("jwt")){
-//                token = st.substring(11);
-//            }
-//        }
         String userName = "";
         if (tokenManager.validateJwtToken(token)) {
             try {
