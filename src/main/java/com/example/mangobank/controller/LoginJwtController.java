@@ -52,15 +52,16 @@ public class LoginJwtController {
 
     @GetMapping("/refresh")
     public ResponseEntity<?> refreshToken(@CookieValue("jwt") String token) {
+        String userName = "";
         try {
             tokenManager.validateJwtToken(token);
+            userName = tokenManager.getUsernameFromToken(token);
         } catch (UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
             System.out.println(e);
             return new ResponseEntity<>("UNAUTHORIZED",HttpStatus.UNAUTHORIZED);
         } catch (ExpiredJwtException e) {
             System.out.println("Token was expired");
         }
-        String userName = "";
         final UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
         String jwtToken = tokenManager.generateJwtToken(userDetails);
         return ResponseEntity.ok(new JwtResponseModel(jwtToken));
