@@ -60,7 +60,7 @@ public class LoginJwtController {
 //            }
 //        }
         String userName = "";
-        if (!tokenManager.validateJwtToken(token)) {
+        if (tokenManager.validateJwtToken(token)) {
             try {
                 userName = tokenManager.getUsernameFromToken(token);
 
