@@ -51,14 +51,14 @@ public class LoginJwtController {
     }
 
     @GetMapping("/refresh")
-    public ResponseEntity<?> refreshToken(HttpHeaders headers) throws Exception {
-        String token = "";
-        List<String> header = headers.get("Set-Cookie");
-        for (String st: header) {
-            if (st.startsWith("jwt")){
-                token = st.substring(11);
-            }
-        }
+    public ResponseEntity<?> refreshToken(@CookieValue("jwt") String token) throws Exception {
+//        String token = "";
+//        List<String> header = headers.get("Set-Cookie");
+//        for (String st: header) {
+//            if (st.startsWith("jwt")){
+//                token = st.substring(11);
+//            }
+//        }
         String userName = "";
         if (!tokenManager.validateJwtToken(token)) {
             try {
