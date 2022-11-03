@@ -23,4 +23,6 @@ public interface UserService {
 
     UserDtoResponse getUserById(Long id);
 
+    User findByEmail(String email);
+
 }

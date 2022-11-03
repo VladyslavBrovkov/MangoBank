@@ -5,7 +5,7 @@ import com.example.mangobank.jwtutil.TokenManager;
 import com.example.mangobank.model.dto.JwtRequestModel;
 import com.example.mangobank.model.dto.JwtResponseModel;
 import com.example.mangobank.model.entity.User;
-import com.example.mangobank.repository.UserRepository;
+import com.example.mangobank.service.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
@@ -21,8 +21,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
-
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class LoginJwtController {
@@ -35,7 +33,7 @@ public class LoginJwtController {
     private TokenManager tokenManager;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<?> createToken(@RequestBody JwtRequestModel request) throws Exception {
@@ -49,11 +47,10 @@ public class LoginJwtController {
             throw new Exception("Invalid credentials", e);
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
-        final User userForToken = userRepository.findByEmail(userDetails.getUsername())
-                .orElseThrow(()->new EntityNotFoundException());
+        final User userForToken = userService.findByEmail(userDetails.getUsername());
         final String jwtToken = tokenManager.generateJwtToken(userDetails, userForToken);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Set-Cookie", "jwt=" + jwtToken + "; Max-Age=604800; Path=/; SameSite=None; Secure; HttpOnly");
+        headers.add("Set-Cookie", "jwt=" + jwtToken + "; Max-Age=300; Path=/; SameSite=None; Secure; HttpOnly");
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(new JwtResponseModel(jwtToken));
@@ -72,8 +69,7 @@ public class LoginJwtController {
             System.out.println("Token was expired");
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-        final User userForToken = userRepository.findByEmail(userDetails.getUsername())
-                .orElseThrow(()->new EntityNotFoundException());
+        final User userForToken = userService.findByEmail(userDetails.getUsername());
         String jwtToken = tokenManager.generateJwtToken(userDetails, userForToken);
         return ResponseEntity.ok(new JwtResponseModel(jwtToken));
     }
