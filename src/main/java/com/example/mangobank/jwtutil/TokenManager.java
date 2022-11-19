@@ -15,7 +15,7 @@ import java.util.Map;
 public class TokenManager implements Serializable {
 
     private static final long serialVersionUID = 7008375124389347049L;
-    public static final long TOKEN_VALIDITY = 300000;
+    public static final long TOKEN_VALIDITY = 30000;
     @Value("${secret}")
     private String jwtSecret;
 
