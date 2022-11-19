@@ -48,9 +48,10 @@ public class LoginJwtController {
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
         final User userForToken = userService.findByEmail(userDetails.getUsername());
-        final String jwtToken = tokenManager.generateJwtToken(userDetails, userForToken);
+        final String jwtToken = tokenManager.generateJwtToken(userDetails, userForToken,false);
+        final String jwtTokenCookie = tokenManager.generateJwtToken(userDetails, userForToken,true);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Set-Cookie", "jwt=" + jwtToken + "; Max-Age=6000; Path=/; SameSite=None; Secure; HttpOnly");
+        headers.add("Set-Cookie", "jwt=" + jwtTokenCookie + "; Max-Age=6000; Path=/; SameSite=None; Secure; HttpOnly");
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(new JwtResponseModel(jwtToken));
@@ -70,7 +71,7 @@ public class LoginJwtController {
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
         final User userForToken = userService.findByEmail(userDetails.getUsername());
-        String jwtToken = tokenManager.generateJwtToken(userDetails, userForToken);
+        String jwtToken = tokenManager.generateJwtToken(userDetails, userForToken,false);
         return ResponseEntity.ok(new JwtResponseModel(jwtToken));
     }
 
